@@ -1,0 +1,9 @@
+{
+    "stationLine": "1",
+    "stationName": "\u0130stasyon - 1",
+    "ip": "192.168.0.104",
+    "ip_server": "192.168.0.100",
+    "port_server": "5015",
+    "mac": "00:e0:4f:1b:6a:88",
+    "isServer": false
+}

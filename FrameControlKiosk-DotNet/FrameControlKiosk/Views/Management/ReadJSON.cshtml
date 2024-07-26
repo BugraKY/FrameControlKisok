@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "ReadJSON";
+}
+@model FrameControlKiosk.ViewModels.ReportJSON
+    <h1>Expert Kiosk System Reports</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <select class="form-control choose_report">
+                <option disabled selected>Parça No seçiniz </option>
+                @foreach (var item in Model.ReportMains)
+                {
+                    <option value="@item.Id">@item.FrameNo</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+
+
+@*
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <h6>Parça No: </h6>
+                <span>@Model.ReportMain!.FrameNo</span>
+            </div>
+            <div class="col-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Konrol Kriter</th>
+                            <th>Kriter Açıklaması</th>
+                            <th>Uygunluk DUrumu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            @foreach (var item in Model.ReportDetails!)
+                            {
+                                <span>@item.</span>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+*@
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.choose_report').change(function () {
+                var selectedValue = $(this).val();
+                var reportSelectedDate = '@Model.reportSelectedDate';// Seçilen değeri al
+                if (selectedValue != "") { // Eğer bir değer seçildiyse
+                    // Yönlendirme yapılacak URL
+                    //var url = '/yourAction?param=' + selectedValue;
+                    //var url = '/yourAction?param=' + selectedValue;
+                    var url = '/managament/readjson/kiosk-reports/'+reportSelectedDate+'/' + selectedValue;
+                    window.location.href = url; // Sayfayı belirtilen URL'ye yönlendir
+                }
+            });
+        });
+
+    </script>
+}

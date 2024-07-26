@@ -1,0 +1,708 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+@model FrameControlKiosk.ViewModels.ConfigurationVM
+
+<style>
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        height: 57px; /* Örnek yükseklik */
+    }
+
+    main {
+        height: calc(100% - 57px); /* Header'ın yüksekliği çıkarılıyor */
+    }
+    /*button:hover:active:focus {
+
+        }*/
+    /*
+        button:hover,
+        button:active,
+        button:focus,
+        button:visited {
+            outline:0!important;
+            outline-color:white;
+        }*/
+    .btn:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .btn-outline-info:hover {
+        color: #fff;
+    }
+
+    .modal-button {
+        width: 75px;
+    }
+
+    .config_main_form_control {
+        display: block;
+        width: 100%;
+        padding: 1.5rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-clip: padding-box;
+        border: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    .form-control:focus {
+        /*outline: none !important;
+            box-shadow: none !important;
+            outline-color:#0DCAF0!important;*/
+
+        border-color: #0DCAF0 !important;
+        outline: 0;
+        box-shadow: 0 0 0 2px #0DCAF0 !important;
+    }
+
+    .config_main_button {
+        width: 150px;
+        height: 65px;
+    }
+
+    .station_update:hover {
+        color: blanchedalmond;
+        background-color: darkgrey;
+    }
+
+    .form_footer_start, .form_footer_end {
+        display: flex;
+    }
+
+    .form_footer_start {
+        justify-content: flex-start;
+    }
+
+    .form_footer_end {
+        justify-content: flex-end;
+    }
+
+        .form_footer_start > *, .form_footer_end > * {
+            margin: 0.25rem;
+        }
+
+</style>
+
+<div class="d-flex align-items-center justify-content-center" style="height: 100%; background-color: #f7f7f7;">
+    <div class="row">
+        <div class="col-12"><h1 class="text-center">Konfigurasyon ve Kurulum</h1></div>
+        <div class="col-12"><div class="config_main_form_control text-center"> <button class="btn btn-lg btn-outline-success placeholder-wave config_main_button shadow" data-bs-toggle="modal" data-bs-target="#definitionBackdrop">Tanımlamalar</button></div></div>
+        <div class="col-12"><div class="config_main_form_control text-center"> <button class="btn btn-lg btn-outline-success placeholder-wave config_main_button shadow" data-bs-toggle="modal" data-bs-target="#controlsBackdrop">Kontroller</button></div></div>
+        <div class="col-12"><div class="config_main_form_control text-center"> <button class="btn btn-lg btn-outline-success placeholder-wave config_main_button shadow" data-bs-toggle="modal" data-bs-target="#stationsBackdrop">İstasyonlar</button></div></div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal Definition-->
+<div class="modal fade" id="definitionBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="definitionBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="definitionBackdropLabel">Tanımlamalar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (Model.Definition!.Count() > 0)
+                {
+                    foreach (var item in Model.Definition!)
+                    {
+                        <p class="definition_update" data-id="@item.Id">@item.Station!.Text - @item.Control!.Title</p>
+                    }
+                }
+                else
+                {
+                    <h6>Herhangi bir istasyona henüz tanımlama yapılmamış</h6>
+                }
+                @if (Model.Stations!.Count() > 0 && Model.Controls!.Count() > 0 && Model.Components!.Count() > 0)
+                {
+                    <div class="">
+                        <div class="form-group mb-3">
+                            <select class="select2 form-control" id="choose_station">
+                                <option value="0" selected disabled>İstasyon Seçiniz</option>
+                                @foreach (var item in Model.Stations!)
+                                {
+                                    <option value="@item.Id">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <select class="select2 form-control" id="choose_frame">
+                                <option value="0" selected disabled>Frame Parça Seçiniz</option>
+                                @foreach (var comp in Model.Components!)
+                                {
+                                    <option value="@comp.FrameID">@comp.Part</option>
+                                }
+                            </select>
+                        </div>
+                        @*
+                    <div class="form-group">
+                    <select class="select2 form-control" id="choose_control">
+                    <option value="0" selected disabled>Kontrol tanımı Seçiniz</option>
+                    @foreach (var item in Model.Controls)
+                    {
+                    <option value="@item.Id">@item.Title</option>
+                    }
+                    </select>
+                    </div>
+                    *@
+                    </div>
+                }
+                <div class="definition_detail d-none">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="spinner-grow" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-outline-info modal-button new_form_definition" onclick="get_definition()">Düzenle</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Controls-->
+<div class="modal fade" id="controlsBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="controlsBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width:1000px!important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="controlsBackdropLabel">Kontroller</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (Model.Controls.Count() > 0)
+                {
+                    foreach (var item in Model.Controls)
+                    {
+                        <p class="control_update" data-id="@item.Id">@item.Title</p>
+                    }
+                }
+                else
+                {
+                    <h6>Henüz bir kontrol Tanımı eklenmemiş</h6>
+                }
+                <div class="control_detail d-none">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="spinner-grow" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-outline-info modal-button new_form_control">Yeni</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Stations-->
+<div class="modal fade" id="stationsBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="stationsBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="stationsBackdropLabel">İstasyonlar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (Model.Stations.Count() > 0)
+                {
+                    foreach (var item in Model.Stations)
+                    {
+                        <p class="station_update" data-id="@item.Id">@item.Text</p>
+                    }
+                }
+                <div class="station_detail d-none">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="spinner-grow" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-button" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-outline-info modal-button new_form_station">Yeni</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        /*
+                var htmleditor = tinymce.init({
+                    selector: 'textarea#controlDescription',
+                    height: 500,
+                    menubar: false,
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar: 'undo redo | formatselect | ' +
+                        'bold italic backcolor | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                });*/
+        var htmleditor = tinymce.init({
+            selector: 'textarea#controlDescription'
+        });
+
+        function get_definition() {
+            var stationId = $('#choose_station').val();  // Select2'den seçili olan değeri al
+            var frameId = $('#choose_frame').val();
+
+            if (stationId) {
+                // Belirli bir URL'ye yönlendir
+                var url = "/configuration/definition/" + stationId + "/" + frameId;
+                window.location.href = url;
+            } else {
+                alert("Lütfen bir istasyon seçiniz!");
+            }
+        }
+        function new_TinyMce() {
+            tinymce.init({
+                selector: 'textarea#controlDescription',
+                setup: function (editor) {
+                    editor.on('init', function (e) {
+                        console.log("Tiny MCE init is complated.");
+                        $('.tox-promotion').remove();
+                        $('.tox-statusbar__right-container').remove();
+                    });
+                }
+            });
+
+        }
+
+        function get_TinyMce(html_content) {
+            tinymce.remove(); // Mevcut TinyMCE örneklerini kaldırın
+            tinymce.init({
+                selector: 'textarea#controlDescription',
+                setup: function (editor) {
+                    editor.on('init', function (e) {
+                        console.log("Tiny MCE init is complated.");
+                        $('.tox-promotion').remove();
+                        $('.tox-statusbar__right-container').remove();
+
+                        var editor = tinymce.get('textarea#controlDescription');
+                        if (editor) {
+                            editor.setContent(html_content);
+                        } else {
+                            console.error('TinyMCE editörü bulunamadı!');
+                        }
+                    });
+                }
+            });
+            /*
+            new_TinyMce();
+            tinymce.get('#controlDescription').setContent(html_content);*/
+
+        }
+
+        function getTinyMceContent() {
+            var editor = tinymce.get('controlDescription'); // 'controlDescription' editörünüzün ID'si
+            if (editor) {
+                return editor.getContent(); // Editörün içeriğini alır
+            } else {
+                console.error('TinyMCE editörü bulunamadı!');
+                return ''; // Editör bulunamazsa boş string döner
+            }
+        }
+
+        function new_form_station() {
+
+        };
+        $(document).ready(function () {
+            /*function cancel_StationUpdate() {
+                $('.station_detail').html('');
+            }*/
+
+            $('#stationsBackdrop').on('shown.bs.modal', function () {
+                $('.station_detail').html(``);
+            });
+            $('#stationsBackdrop').on('hidden.bs.modal', function () {
+                $('.station_detail').html(``);
+                location.reload();
+            });
+
+            /////////////////////////////////////////////////////////////
+
+            $('#controlsBackdrop').on('shown.bs.modal', function () {
+                $('.control_detail').html(``);
+            });
+            $('#controlsBackdrop').on('hidden.bs.modal', function () {
+                $('.control_detail').html(``);
+                location.reload();
+            });
+            /////////////////////////////////////////////////////////////
+
+            $(document).on('click', '.new_form_station', function () {
+                var stationDetailDiv = $('.station_detail');
+                stationDetailDiv.html(`
+                                                                                <!--<label for="idInput">ID:</label>
+                                                                                <input type="text" id="idInput" name="id" value="" autocomplete="off" readonly><br>-->
+                                                                                <div class="form-group">
+                                                                                <label for="stationNumInput">İstasyon sırası:</label>
+                                                                                <input type="number" class="form-control" id="stationNumInput" name="stationNum" autocomplete="off" value=""><br>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                <label for="textInput">İstasyon Adı:</label>
+                                                                                <input type="text" class="form-control" id="textInput" name="text" autocomplete="off" value=""><br>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                <label for="ipInput">IP:</label>
+                                                                                <input type="text" class="form-control" id="ipInput" name="ip" autocomplete="off" value=""><br>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                <label for="macInput">IP:</label>
+                                                                                <input type="text" class="form-control" id="macInput" name="mac" autocomplete="off" value=""><br>
+                                                                                </div>
+                                                                                <div class="form_footer_end">
+                                                                                <button type="button" class="btn btn-secondary modal-button" id="cancel_StationUpdate">İptal</button>
+                                                                                <button type="button" class="btn btn-success modal-button" id="save_StationUpdate">Kaydet</button>
+                                                                                </div>
+                                                                            `).removeClass('d-none');
+            });//New Form Station
+            $(document).on('click', '.new_form_control', function () {
+                var stationDetailDiv = $('.control_detail');
+                stationDetailDiv.html(`
+                                                                    <!--<label for="idInput">ID:</label>
+                                                                    <input type="text" id="idInput" name="controlid" value="" autocomplete="off" readonly><br>-->
+                                                                    <div class="form-group">
+                                                                    <label for="controlTitle">Kontrol Başlığı:</label>
+                                                                    <input type="text" class="form-control" id="controlTitle" name="controlTitle" autocomplete="off" value=""><br>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                    <label for="textInput">Kontrol Açıklaması:</label>
+                                                                    <textarea class="form-control" id="controlDescription" name="controlDescription" autocomplete="off"></textarea><br>
+                                                                    </div>
+                                                                    <div class="form_footer_end">
+                                                                    <button type="button" class="btn btn-secondary modal-button" id="cancel_ControlUpdate">İptal</button>
+                                                                    <button type="button" class="btn btn-success modal-button" id="save_ControlUpdate">Kaydet</button>
+                                                                    </div>
+                                                                `).removeClass('d-none');
+
+                new_TinyMce();
+            });//New Form Control
+            $(document).on('click', '.new_form_definition', function () {
+                var stationDetailDiv = $('.control_detail');
+                stationDetailDiv.html(`
+                                                                    <!--<label for="idInput">ID:</label>
+                                                                    <input type="text" id="idInput" name="controlid" value="" autocomplete="off" readonly><br>-->
+                                                                    <div class="form-group">
+                                                                    <label for="controlTitle">Kontrol Başlığı:</label>
+                                                                    <input type="text" class="form-control" id="controlTitle" name="controlTitle" autocomplete="off" value=""><br>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                    <label for="textInput">Kontrol Açıklaması:</label>
+                                                                    <textarea class="form-control" id="controlDescription" name="controlDescription" autocomplete="off"></textarea><br>
+                                                                    </div>
+                                                                    <div class="form_footer_end">
+                                                                    <button type="button" class="btn btn-secondary modal-button" id="cancel_ControlUpdate">İptal</button>
+                                                                    <button type="button" class="btn btn-success modal-button" id="save_ControlUpdate">Kaydet</button>
+                                                                    </div>
+                                                                `).removeClass('d-none');
+                new_TinyMce();
+            });//New Form Definition
+
+            $(document).on('click', '.station_update', function () {
+                var stationDetailDiv = $('.station_detail');
+                stationDetailDiv.html(`
+                                                                        <div class="d-flex align-items-center justify-content-center">
+                                                                            <div class="spinner-grow" role="status">
+                                                                                <span class="visually-hidden">Yükleniyor...</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    `).removeClass('d-none');
+                var stationId = $(this).data('id');
+                $.ajax({
+                    url: '/configuration/get-station/' + stationId,
+                    method: 'GET',
+                    success: function (response) {
+                        // Alınan veriyi inputlara yerleştir
+
+                        stationDetailDiv.html(`
+                                                                                <!--<label for="idInput">ID:</label>
+                                                                                <input type="text" id="idInput" name="id" value="${response.id}" readonly><br>-->
+                                                                                <input type ="text" value="${response.id}" name="id" readonly hidden/>
+                                                                                <div class="form-group">
+                                                                                <label for="stationNumInput">İstasyon sırası:</label>
+                                                                                <input type="number" class="form-control" id="stationNumInput" name="stationNum" autocomplete="off" value="${response.stationNum}"><br>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                <label for="textInput">İstasyon Adı:</label>
+                                                                                <input type="text" class="form-control" id="textInput" name="text" autocomplete="off" value="${response.text}"><br>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                <label for="ipInput">IP:</label>
+                                                                                <input type="text" class="form-control" id="ipInput" name="ip" autocomplete="off" value="${response.ip}"><br>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                <label for="macInput">Mac Adres:</label>
+                                                                                <input type="text" class="form-control" id="macInput" name="mac" autocomplete="off" value="${response.mac}"><br>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                <div class="col-6">
+                                                                                <div class="form_footer_start">
+                                                                                <button type="button" class="btn btn-danger modal-button" id="delete_StationUpdate">Kaldır</button>
+                                                                                </div>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                <div class="form_footer_end">
+                                                                                <button type="button" class="btn btn-secondary modal-button" style="justify-content:flex-end;" id="cancel_StationUpdate">İptal</button>
+                                                                                <button type="button" class="btn btn-success modal-button" style="justify-content:flex-end;" id="save_StationUpdate">Kaydet</button>
+                                                                                </div>
+                                                                                </div>
+                                                                                </div>
+                                                                            `);
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });//Update Station
+
+            $(document).on('click', '#save_StationUpdate, #delete_StationUpdate,#cancel_StationUpdate', function (event) {
+                var clickedButtonId = this.id;
+                var url = '';
+
+                if (clickedButtonId === 'save_StationUpdate')
+                    url = '/configuration/upsert-station/';
+                else if (clickedButtonId === 'delete_StationUpdate')
+                    url = '/configuration/del-station/';
+                else if (clickedButtonId === 'cancel_StationUpdate') {
+                    $('.station_detail').html('').addClass('d-none');
+                    return 0;
+                }
+
+
+                var data_status = {
+                    id: $('input[name=id]').val(),
+                    stationNum: $('input[name=stationNum]').val(),
+                    text: $('input[name=text]').val(),
+                    ip: $('input[name=ip]').val(),
+                    mac: $('input[name=mac]').val()
+                };
+                if (data_status.stationNum > 1000 || data_status.stationNum < 1) {
+                    $.toast({
+                        heading: 'Dikkat!',
+                        text: 'İstasyon numarası en fazla 1000 ile sınırlıdır. (Sadece 1-1000 arası bir değer girilebilir.)',
+                        icon: 'warning',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#dc3545',
+                        hideAfter: 7500// To change the background
+                    });
+                    return 0;
+                }
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(data_status),
+                    success: function (res) {
+                        console.log(res);
+                        if (res.code === 200)
+                            $.toast({
+                                heading: res.status,
+                                text: res.message,
+                                icon: 'info',
+                                loader: false,
+                                loaderBg: '#9EC600',
+                                hideAfter: 10000
+                            })
+                        else
+                            $.toast({
+                                heading: res.status,
+                                text: res.message,
+                                icon: 'error',
+                                loader: false,        // Change it to false to disable loader
+                                loaderBg: '#dc3545',
+                                hideAfter: 7500// To change the background
+                            })
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+
+
+            });//Add    Station
+
+
+            $(document).on('click', '#save_ControlUpdate, #delete_ControlUpdate,#cancel_ControlUpdate', function (event) {
+                var clickedButtonId = this.id;
+                var url = '';
+
+                if (clickedButtonId === 'save_ControlUpdate')
+                    url = '/configuration/upsert-control/';
+                else if (clickedButtonId === 'delete_ControlUpdate')
+                    url = '/configuration/del-control/';
+                else if (clickedButtonId === 'cancel_ControlUpdate') {
+                    $('.station_detail').html('').addClass('d-none');
+                    return 0;
+                }
+                var tinyContent = getTinyMceContent();
+                console.log("Content: ");
+                console.log(tinyContent);
+
+                var data_status = {
+                    id: $('input[name=controlid]').val(),
+                    title: $('input[name=controlTitle]').val(),
+                    text: tinyContent,
+                    active: $('#controlactive').is(':checked')
+                };
+
+                /*
+                if (data_status.stationNum > 1000 || data_status.stationNum < 1) {
+                    $.toast({
+                        heading: 'Dikkat!',
+                        text: 'İstasyon numarası en fazla 1000 ile sınırlıdır. (Sadece 1-1000 arası bir değer girilebilir.)',
+                        icon: 'warning',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#dc3545',
+                        hideAfter: 7500// To change the background
+                    });
+                    return 0;
+                }
+                */
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify(data_status),
+                    success: function (res) {
+                        console.log(res);
+                        if (res.code === 200)
+                            $.toast({
+                                heading: res.status,
+                                text: res.message,
+                                icon: 'info',
+                                loader: false,
+                                loaderBg: '#9EC600',
+                                hideAfter: 10000
+                            })
+                        else
+                            $.toast({
+                                heading: res.status,
+                                text: res.message,
+                                icon: 'error',
+                                loader: false,        // Change it to false to disable loader
+                                loaderBg: '#dc3545',
+                                hideAfter: 7500// To change the background
+                            })
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+
+
+            });//Add    Control
+
+            $(document).on('click', '.control_update', function () {
+                var controlDetailDiv = $('.control_detail');
+                controlDetailDiv.html(`
+                                                            <div class="d-flex align-items-center justify-content-center">
+                                                                <div class="spinner-grow" role="status">
+                                                                    <span class="visually-hidden">Yükleniyor...</span>
+                                                                </div>
+                                                            </div>
+                                                        `).removeClass('d-none');
+                var controlId = $(this).data('id');
+                $.ajax({
+                    url: '/configuration/get-control/' + controlId,
+                    method: 'GET',
+                    success: function (response) {
+                        // Alınan veriyi inputlara yerleştir
+                        console.log(response);
+                        controlDetailDiv.html(`
+                                                                    <!--<label for="idInput">ID:</label>
+                                                                    <input type="text" id="idInput" name="controlid" value="${response.id}" readonly><br>-->
+                                                                    <input type ="text" value="${response.id}" name="controlid" readonly hidden/>
+                                                                    <div class="form-group">
+                                                                    <label for="controlTitle">Kontrol Başlığı:</label>
+                                                                    <input type="text" class="form-control" id="controlTitle" name="controlTitle" autocomplete="off" value="${response.title}"><br>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                    <label for="controlDescription">Kontrol Açıklaması:</label>
+                                                                    <textarea class="form-control" id="controlDescription" name="controlDescription" autocomplete="off">${response.text}</textarea><br>
+                                                                    </div>
+                                                                    <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input" id="controlactive" name="controlactive" ${response.active ? 'checked' : ''}/>
+                                                                    <label class="form-check-label" for="controlactive">Aktif</label>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                    <div class="col-6">
+                                                                    <div class="form_footer_start">
+                                                                    <button type="button" class="btn btn-danger modal-button" id="" disabled>Kaldır</button>
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                    <div class="form_footer_end">
+                                                                    <button type="button" class="btn btn-secondary modal-button" style="justify-content:flex-end;" id="cancel_ControlUpdate">İptal</button>
+                                                                    <button type="button" class="btn btn-success modal-button" style="justify-content:flex-end;" id="save_ControlUpdate">Kaydet</button>
+                                                                    </div>
+                                                                    </div>
+                                                                    </div>
+                                                                `);
+                        get_TinyMce(response.text);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });//Update Control
+
+
+            textKeyboard_Funcs();
+            numKeyboard_Funcs();
+            //testNoSelectText();
+            //touchConfig();
+
+            $("#choose_station, #choose_control").select2({
+                dropdownParent: $("#definitionBackdrop") // Açılır menünün yerleştirileceği üst elementin ID'si
+            });
+
+            /*
+            $('button').on('touchstart', function () {
+                $(this).addClass('hover');
+            });
+
+            $('button').on('touchend', function () {
+
+                $(this).removeClass('hover');
+            });*/
+
+        });
+
+    </script>
+}
+

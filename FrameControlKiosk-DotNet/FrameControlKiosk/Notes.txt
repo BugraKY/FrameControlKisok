@@ -1,0 +1,346 @@
+﻿linux sunucu tarafında 'libgdiplus' paketini yüklememiz gerekiyor olabilir. Chromium veya extensionlşarı gerekiyor olabilir.
+
+
+color palette
+
+#F3DAE2
+#D9C3CB
+#C0ACB3
+#A6959B
+#8D7E83
+#73676B
+
+
+
+
+        <script>
+            var coordinateChecks = [];
+            var frontPictureBase64 = '';
+            var rearPictureBase64 = '';
+
+            let isFrontImageAdded = false;
+            let isRearImageAdded = false;
+
+
+            var frontNumbs = [];
+            var rearNumbs = [];
+
+
+
+            function print() {
+                // frontPictureBase64 ve rearPictureBase64 verilerini kullanarak img elementleri yarat
+                if (!isFrontImageAdded) {
+                    var frontImage = new Image();
+                    frontImage.onload = function () {
+                        document.getElementById("front").appendChild(frontImage);
+                        isFrontImageAdded = true;
+                        frontImage.style.transform = "rotate(90deg)";
+                        frontImage.width = 300;
+                        frontImage.height = 400;
+                        // Her iki resim de yüklendiyse yazdırmayı tetikle
+                        if (isRearImageAdded) {
+                            //$('#coordinateModal').modal('hide');
+                            window.print();
+                        }
+                    };
+                    frontImage.src = frontPictureBase64;
+                }
+
+                if (!isRearImageAdded) {
+                    var rearImage = new Image();
+                    rearImage.onload = function () {
+                        rearImage.style.transform = "rotate(-90deg)";
+                        rearImage.width = 300;
+                        rearImage.height = 400;
+
+                        document.getElementById("rear").appendChild(rearImage);
+                        isRearImageAdded = true;
+                        // Her iki resim de yüklendiyse yazdırmayı tetikle
+                        if (isFrontImageAdded) {
+                            //$('#coordinateModal').modal('hide');
+                            window.print();
+                        }
+                    };
+                    rearImage.src = rearPictureBase64;
+                }
+            }
+
+            function getCoordinates() {
+
+                $.ajax({
+                    url: '/station/getCoords/' + '@Model.Id',
+                    type: 'post',
+                    contentType: "application/json",
+                    success: function (response) {
+                        coordinateChecks = response;
+                        createMarkers();
+                        console.log(coordinateChecks);
+
+
+                        Promise.all([
+                            html2canvas(document.getElementById("front-image-container")),
+                            html2canvas(document.getElementById("rear-image-container"))
+                        ]).then(canvases => {
+                            frontPictureBase64 = canvases[1].toDataURL("image/png");
+                            rearPictureBase64 = canvases[0].toDataURL("image/png");
+
+                            print();
+
+                        });
+
+                    },
+                    error: function (error) {
+
+                    }
+                });
+                //sendBase64();
+            }
+            function createMarkers() {
+                var countFront = 0;
+                var countRear = 0;
+                clearMarkers();
+                console.log("markers triggerd");
+
+                coordinateChecks.forEach(check => {
+                    let marker = document.createElement('div');
+                    marker.style.left = check.coordinate.x + 'px';
+                    marker.style.top = check.coordinate.y + 'px';
+                    marker.id = 'marker_' + check.coordinateId;
+                    marker.classList.add('marker');
+
+                    // Başlangıçta işaretliyse, işareti göster
+
+                    if (check.marked) {
+                        marker.style.opacity = 1;
+                        if (check.coordinate.markSize == 1)
+                            marker.classList.add('mark_saved_sm');
+                        if (check.coordinate.markSize == 2)
+                            marker.classList.add('mark_saved_med');
+                        if (check.coordinate.markSize == 3)
+                            marker.classList.add('mark_saved_lr');
+
+                        console.log(check);
+
+
+                        /*Numbers*/
+                        if (check.coordinate.imageType == 1) {//front
+                            console.log("Front");
+                            var numberElement = document.createElement('div');
+                            numberElement.textContent = frontNumbs[countFront];
+
+                            numberElement.style.position = 'absolute';
+                            if (check.coordinate.markSize == 1) {
+                                numberElement.style.left = `calc(${check.coordinate.x}px + 5px)`;
+                                numberElement.style.top = `calc(${check.coordinate.y}px + 13px)`;
+                            }
+                            else if (check.coordinate.markSize == 2) {
+                                numberElement.style.left = `calc(${check.coordinate.x}px + 11px)`;
+                                numberElement.style.top = `calc(${check.coordinate.y}px + 28px)`;
+                            }
+                            else if (check.coordinate.markSize == 3) {
+                                numberElement.style.left = `calc(${check.coordinate.x}px + 19px)`;
+                                numberElement.style.top = `calc(${check.coordinate.y}px + 43px)`;
+                            }
+                            numberElement.style.opacity = 1;
+                            numberElement.style.fontWeight = 900;
+                            console.log(numberElement);
+                            countFront++;
+                            document.getElementById('front-image-container').appendChild(numberElement);
+
+                        }
+                        else if (check.coordinate.imageType == 2) {//rear
+                            console.log("Rear");
+                            var numberElement = document.createElement('div');
+                            numberElement.textContent = rearNumbs[countRear]
+
+
+                            numberElement.style.position = 'absolute';
+                            if (check.coordinate.markSize == 1) {
+                                numberElement.style.left = `calc(${check.coordinate.x}px + 5px)`;
+                                numberElement.style.top = `calc(${check.coordinate.y}px + 13px)`;
+                            }
+                            else if (check.coordinate.markSize == 2) {
+                                numberElement.style.left = `calc(${check.coordinate.x}px + 11px)`;
+                                numberElement.style.top = `calc(${check.coordinate.y}px + 28px)`;
+                            }
+                            else if (check.coordinate.markSize == 3) {
+                                numberElement.style.left = `calc(${check.coordinate.x}px + 19px)`;
+                                numberElement.style.top = `calc(${check.coordinate.y}px + 43px)`;
+                            }
+                            numberElement.style.opacity = 1;
+                            numberElement.style.fontWeight = 900;
+                            countRear++;
+                            document.getElementById('rear-image-container').appendChild(numberElement);
+                        }
+
+
+
+                        console.log(frontNumbs);
+                        console.log(rearNumbs);
+
+                    }
+                    else {
+                        if (check.coordinate.markSize == 1)
+                            marker.classList.add('mark_unsaved_sm');
+                        if (check.coordinate.markSize == 2)
+                            marker.classList.add('mark_unsaved_med');
+                        if (check.coordinate.markSize == 3)
+                            marker.classList.add('mark_unsaved_lr');
+                    }
+
+                    if (check.coordinate.imageType == "2")
+                        document.getElementById('rear-image-container').appendChild(marker);
+                    else if (check.coordinate.imageType == "1")
+                        document.getElementById('front-image-container').appendChild(marker);
+
+                    // Tıklama
+                    marker.addEventListener('click', function () {
+                        if (!check.saved) {
+                            check.marked = !check.marked; // 'marked' değerini değiştir
+                            this.style.opacity = check.marked ? 1 : 0; // Opaklığı ayarla
+
+                            /*
+                            if (check.marked)
+                                check.reportDetailId = $('.report-section').data('id');
+
+                            */
+                        }
+                        else {
+                            $.toast({
+                                heading: 'Kaydedilmiş işaretleri değiştiremezsiniz!',
+                                showHideTransition: 'slide',
+                                textColor: '#eee',
+                                icon: 'info',
+                                loader: false,
+                                hideAfter: 5000,
+                                //bgColor: '#39A7FF',
+                                bgColor: '#333',
+                                position: 'bottom-center'
+                            })
+                        }
+
+                    });
+                });
+
+            }
+            function clearMarkers() {
+                const markers = document.querySelectorAll('.marker');
+                markers.forEach(marker => marker.parentNode.removeChild(marker));
+            }
+
+            $(document).ready(function () {
+
+                var maxHeights = [];
+
+
+                // frontNumbs için verileri oku ve ekle
+                document.querySelectorAll('[data-front]').forEach(function (element) {
+                    if (element.getAttribute('data-front') != "0") {
+                        frontNumbs.push(element.getAttribute('data-front'));
+                    }
+                });
+
+                // rearNumbs için verileri oku ve ekle
+                document.querySelectorAll('[data-rear]').forEach(function (element) {
+                    if (element.getAttribute('data-rear') != "0") {
+                        rearNumbs.push(element.getAttribute('data-rear'));
+                    }
+                });
+
+                console.log(frontNumbs);
+                console.log(rearNumbs);
+
+                $('.table tr').each(function (index) {
+                    var maxHeight = 0;
+                    var rows = $(`tr:nth-child(${index + 1})`, '.table');
+                    rows.each(function () {
+                        maxHeight = Math.max(maxHeight, $(this).height());
+                    });
+                    maxHeights[index] = maxHeight;
+                });
+
+                $('.table tr').each(function (index) {
+                    $(`tr:nth-child(${index + 1})`, '.table').height(maxHeights[index]);
+                });
+
+                $('#coordinateModal').modal('show');
+
+
+
+
+
+                setTimeout(function () {
+                    getCoordinates();
+                    //window.print();
+                    /*
+                    var printContent = $('#printContent').html();
+                    console.log(printContent);
+
+                    document.body.innerHTML = printContent;
+
+                    window.print();
+                    */
+                    //location.href = 'http://127.0.0.1'; //ORİJİNALDE YÖNLENDİRİLECEK.
+                    //location.href = 'http://localhost:5000/station/3'; //DEBUGDA YÖNLENDİRİLECEK.
+
+                }, 500);
+
+            });
+        </script>
+
+
+
+        ENSON EKLENENLER
+
+
+
+
+
+  {
+    "id": 0,
+    "coordinateId": 0,
+    "coordinate": {
+      "x": 358,
+      "y": 778,
+      "imageType": 2,
+      "markSize": 2
+    },
+    "marked": false,
+    "saved": false
+  },
+  {
+    "id": 0,
+    "coordinateId": 0,
+    "coordinate": {
+      "x": 305,
+      "y": 780,
+      "imageType": 2,
+      "markSize": 2
+    },
+    "marked": false,
+    "saved": false
+  },
+  {
+    "id": 0,
+    "coordinateId": 0,
+    "coordinate": {
+      "x": 275,
+      "y": 779,
+      "imageType": 2,
+      "markSize": 2
+    },
+    "marked": false,
+    "saved": false
+  },
+  {
+    "id": 0,
+    "coordinateId": 0,
+    "coordinate": {
+      "x": 223,
+      "y": 782,
+      "imageType": 2,
+      "markSize": 2
+    },
+    "marked": false,
+    "saved": false
+  }

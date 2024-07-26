@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+<input onchange="listFunction()" id="mySelect" class="datepicker" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+<input onchange="listFunction()" id="search" class="fa-search" type="text" placeholder="Frame No Giriniz..."   />
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table id="reportTable" class="table table-hover table-bordered table-striped dataTables">
+                    <thead>
+                        <tr>
+                            <th class="d-none">ID</th>
+                            <th>Frame No:</th>
+                            <th>İptal:</th>
+                            <th>Tamamlandı:</th>
+                            <th>Başlangıç zamanı:</th>
+                            <th>Bitiş zamanı:</th>
+                            <th>Raporlar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+@section Scripts {
+    <script>
+        var apiurl = '/report/get-reports/' + $("#mySelect").val() + '/?=';
+
+        function listFunction() {
+            var selectedDate = $("#mySelect").val();
+            var searchQuery = $("#search").val();
+
+            apiurl = '/report/get-reports/' + $("#mySelect").val() + '/' + searchQuery;
+      
+           
+            var reportModel = {
+                selectedDate: selectedDate,
+                search: searchQuery,
+            };
+            console.log(reportModel);
+            $('#reportTable').DataTable().destroy();
+        
+                    $('#reportTable').DataTable({
+                "ajax": "report/kioskReport/{id}",
+                        "processing": true,
+                        "serverside": true,
+                        stateSave:true,
+                         "ajax": {
+                            "url": apiurl,
+                            "dataType": "json",
+                            "type": "GET",
+                            "contentType": "application/json; charset=utf-8",
+                             "dataSrc": "",
+                         },
+                        "columns": [
+                            {"data": "id",
+                            className:"d-none"},
+                            {"data": "frameNo"},
+                            {
+                                "data": "cancelled",
+                                "render": function (data) {
+                                    return data ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>'
+                                }
+                            },
+                            {
+                                "data": "processingDone",
+                                "render": function (data) {
+                                    return data ? '<i class="fas fa-check" ></i>' : '<i class="fas fa-times"></i >'
+                                }
+                            },
+                            { "data": "startingDate",
+                                "render": function (data) { 
+                                    var jsDate = new Date(data);
+                                    return jsDate.toLocaleString();
+} },
+                            {
+                                "data": "endingDate",
+                                "render": function (data) { 
+                                    var jsDate = new Date(data);
+                                    return jsDate.toLocaleString();
+} },
+                            {
+                                "data":"id",
+                                "render": function(data) {
+                            return `<button class="btn btn-success" onclick="redirectToReport(` + data + `)"> <i class="fa-regular fa-file-pdf" style="font-size:22px;"></i> </button>`;
+                                }
+                            }
+                                ],
+                        "pagingType": "full_numbers",
+                        "language": {
+                            "paginate": {
+                                "previous": "<<<",
+                                "next": ">>>"
+                            }
+                        }
+                    });
+       
+        }
+        function redirectToReport(id) {
+            var url = "/report/kioskReport/" + id;
+            window.open(url, '_blank');
+        }
+
+        $(document).ready(function () {
+            listFunction();
+        });
+
+        $("#mySelect").change(function () {
+            listFunction();
+        });
+
+    </script>
+}
+
+

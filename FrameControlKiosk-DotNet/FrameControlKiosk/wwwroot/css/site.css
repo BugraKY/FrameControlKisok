@@ -1,0 +1,334 @@
+:root {
+    /*--main-bg-color: #f7f7f7;*/ /* Ana arka plan rengini bir deðiþkene atayýn */
+    --main-bg-color: #f4eae0;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    font-size: 14px;
+    -webkit-user-select: none;
+    position: relative;
+    min-height: 100%;
+    height: 100%;
+    max-height: 100%;
+    touch-action: pan-x pan-y;
+}
+
+* {
+    /*cursor: none!important;*/
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+html, body {
+    background-color: var(--main-bg-color);
+    height: 100%;
+}
+
+main {
+    background-color: var(--main-bg-color);
+    height: 100%;
+}
+
+.box {
+    border: #c4c4c4 solid 1px;
+    border-radius: 5px;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+}
+
+.shadow {
+}
+
+button.btn {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+}
+
+input {
+    -webkit-user-select: none !important;
+    outline: none;
+}
+/*
+    input[type='date'] {
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none;
+        color: white !important; 
+        background-color: #565656 !important; 
+    }
+
+        input[type='date']::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        input[type='date']::-webkit-datetime-edit,
+        input[type='date']::-webkit-inner-spin-button,
+        input[type='date']::-webkit-clear-button {
+            color: white !important;
+        }
+
+        input[type='date']:hover {
+            background-color: #424242 !important;
+        }
+        */
+/*
+    input[type="date"] {
+        padding: 8px 12px !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
+        font-size: 16px !important;
+        color: #333 !important; 
+        background-color: #fff !important; 
+
+        -webkit-appearance: none !important; 
+        -moz-appearance: none !important; 
+        appearance: none !important;
+        background: url('data:image/svg+xml;utf8,<svg fill="%23000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 3h-1V2h-2v1H8V2H6v1H5c-1.11 0-1.99.9-1.99 2L3 21c0 1.1.89 1.99 2 1.99h14c1.1 0 2-.89 2-2V5c0-1.1-.9-2-2-2zm0 18H5V8h14v13z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') no-repeat right !important;
+        padding-right: 30px !important; 
+    }
+        
+        input[type="date"]:focus {
+            border-color: #007bff !important;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25) !important;
+        }
+        */
+
+    input:focus {
+        -webkit-user-select: none !important;
+        outline: none !important;
+    }
+
+textarea {
+    -webkit-user-select: none !important;
+    outline: none;
+}
+
+    textarea:focus {
+        -webkit-user-select: none !important;
+        outline: none;
+    }
+
+
+.keyboard_text {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: white;
+    max-width: 795px;
+    left: 562.5px;
+    top: 697px;
+    position: absolute;
+    z-index: 1056;
+    background-color: darkgray;
+}
+
+.keyboard_numeric {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: white;
+    max-width: 215px;
+    left: 852.5px;
+    top: 762px;
+    position: absolute;
+    z-index: 1056;
+    background-color: darkgray;
+}
+
+    .keyboard_numeric button {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        border-radius: 10px;
+        padding: 2px;
+        /*font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;*/
+    }
+
+.keyboard-header {
+    background-color: #808080;
+    padding: 5px;
+    cursor: move;
+    margin-bottom: 10px;
+    /*border-bottom: 1px solid #ddd;*/
+}
+
+.keyboard_text span.empty_keybtn {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 10px;
+    padding: 2px;
+    display: inline-block;
+    /*font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;*/
+}
+
+.keyboard_text button {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 10px;
+    padding: 2px;
+    /*font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;*/
+}
+
+.row_keyboard {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+}
+
+
+.jq-toast-wrap {
+    min-width: 200px;
+    width: auto;
+    max-width: 900px;
+}
+
+.jq-toast-single {
+    margin: 0 10px 10px 10px;
+}
+
+.jq-toast-heading {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+input[name="controlDescription"] {
+    height: 200px;
+}
+
+textarea.form-control {
+    min-height: 200px; /* Baþlangýç yüksekliði */
+    resize: none; /* Kullanýcýnýn elle boyutlandýrmasýný engelle */
+    overflow-y: auto; /* Ýçerik çok satýrlý olduðunda kaydýrma çubuðu göster */
+    
+}
+input.form-control:focus {
+    outline: none !important;
+    border: 2px solid #0092ff;
+    box-shadow: none;
+}
+textarea.form-control:focus {
+    outline: none !important;
+    border: 2px solid #0092ff;
+    box-shadow: none;
+}
+.close-mark {
+    text-shadow: 1px 5px #000;
+    color: red !important;
+    font-size: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.img-fluid {
+    position: relative;
+}
+
+.box_time {
+    position: absolute;
+    top: 15px;
+    right: 0;
+    background-color: #808080; /*#c6c200;*/
+    width: 200px !important;
+}
+
+#currentTime {
+    position: relative;
+    left: 10px;
+    font-weight: 900;
+    font-size: 16px;
+    color: white;
+}
+/* icon */
+/*
+#toast-container > .bg-success {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGwSURBVEhLtZa9SgNBEMc9sUxxRcoUKSzSWIhXpFMhhYWFhaBg4yPYiWCXZxBLERsLRS3EQkEfwCKdjWJAwSKCgoKCcudv4O5YLrt7EzgXhiU3/4+b2ckmwVjJSpKkQ6wAi4gwhT+z3wRBcEz0yjSseUTrcRyfsHsXmD0AmbHOC9Ii8VImnuXBPglHpQ5wwSVM7sNnTG7Za4JwDdCjxyAiH3nyA2mtaTJufiDZ5dCaqlItILh1NHatfN5skvjx9Z38m69CgzuXmZgVrPIGE763Jx9qKsRozWYw6xOHdER+nn2KkO+Bb+UV5CBN6WC6QtBgbRVozrahAbmm6HtUsgtPC19tFdxXZYBOfkbmFJ1VaHA1VAHjd0pp70oTZzvR+EVrx2Ygfdsq6eu55BHYR8hlcki+n+kERUFG8BrA0BwjeAv2M8WLQBtcy+SD6fNsmnB3AlBLrgTtVW1c2QN4bVWLATaIS60J2Du5y1TiJgjSBvFVZgTmwCU+dAZFoPxGEEs8nyHC9Bwe2GvEJv2WXZb0vjdyFT4Cxk3e/kIqlOGoVLwwPevpYHT+00T+hWwXDf4AJAOUqWcDhbwAAAAASUVORK5CYII=") !important;
+    background-color: dodgerblue;
+}
+*/
+
+/*
+button:active,
+button:focus {
+
+}*/ /*
+button:active {
+    color: #000 !important;
+    border-color: #f8f9fa !important;
+    background-color: #f8f9fa !important;
+}
+button:focus {
+    outline: none;
+    box-shadow: none;
+}*/ /*
+button:hover{
+    color:white!important;
+    outline:none!important;
+    box-shadow:none!important;
+}
+button:active {
+    border: none!important;
+}*/
+/*
+button {
+    -webkit-tap-highlight-color: transparent; 
+    -moz-tap-highlight-color: transparent; 
+}*/
+
+/*
+.btn-outline-light:hover {
+
+}*/
+/*
+.keyboard_text button span {
+    
+}*/
+tr.report_title {
+    transition: background-color .5s, box-shadow .5s, -webkit-box-shadow .5s;
+}
+tr.report_title.focused {
+    /*transition-delay:1s;*/
+    background-color: grey;
+    color:white!important;
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+/*
+td .shadow-box:focus {
+    background-color: bisque;
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}*/
+/*
+td.report_title:focus {
+    background-color: bisque;
+    box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19) !important;
+    -webkit-box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19) !important;
+}*/
+/* Datepicker widget'ýný büyütmek için */
+.datepicker {
+    font-size: 1.25em; /* Temel font boyutunu artýrýr */
+}
+
+    /* Eðer datepicker içindeki tablo boyutunu da ayarlamak isterseniz */
+    .datepicker table {
+        width: auto; /* Tablonun otomatik geniþliðini kullanmasýný saðlar */
+    }
+
+        /* Ayrýca, datepicker'ýn içindeki günleri gösteren hücreleri de büyütebilirsiniz */
+        .datepicker table tr td,
+        .datepicker table tr th {
+            padding: 10px; /* Hücre içi dolguyu artýrýr */
+            width: 40px; /* Hücre geniþliðini artýrýr */
+            height: 40px; /* Hücre yüksekliðini artýrýr */
+        }

@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=KioskApp
+Exec=/home/expert/FrameControlKiosk-gtk/main
+X-GNOME-Autostart-enable=true

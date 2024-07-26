@@ -1,0 +1,2605 @@
+{
+  "Stations": [
+    {
+      "Id": 5,
+      "StationNum": 2,
+      "Text": "İstasyon - 2",
+      "IP": "192.168.1.102",
+      "Mac": "00:e0:4f:1b:6b:05",
+      "IsServer": false,
+	  "HexColor": "#D9C3CB"
+    },
+    {
+      "Id": 3,
+      "StationNum": 3,
+      "Text": "İstasyon - 3",
+      "IP": "192.168.1.103",
+      "Mac": "00:e0:4f:1b:6f:9e",
+      "IsServer": false,
+	  "HexColor": "#C0ACB3"
+    },
+    {
+      "Id": 11,
+      "StationNum": 4,
+      "Text": "İstasyon - 4",
+      "IP": "192.168.1.104",
+      "Mac": "00:e0:4f:1b:6a:8b",
+      "IsServer": false,
+	  "HexColor": "#A6959B"
+    },
+    {
+      "Id": 12,
+      "StationNum": 5,
+      "Text": "İstasyon - 5",
+      "IP": "192.168.1.105",
+      "Mac": "00:e0:4f:1b:6f:7b",
+      "IsServer": false,
+	  "HexColor": "#8D7E83"
+    },
+    {
+      "Id": 14,
+      "StationNum": 6,
+      "Text": "İstasyon - 6",
+      "IP": "192.168.1.106",
+      "Mac": "00:e0:4f:1b:6f:8a",
+      "IsServer": false,
+	  "HexColor": "#73676B"
+    },
+    {
+      "Id": 4,
+      "StationNum": 1,
+      "Text": "İstasyon - 1",
+      "IP": "127.0.0.1",
+      "Mac": "00:e0:4f:1b:6a:88",
+      "IsServer": false,
+	  "HexColor": "#F3DAE2"
+    }
+  ],
+  "Controls": [
+    {
+      "Id": 16,
+      "Title": "SEALİNG YÜZEY GENİŞLİK VE DERİNLİK KONTROLÜ",
+      "Text": "Sealing \nİç ve Dış 3.00 mm düşük olmamalı, \nİç Derinlik Min 0.90 Max 1.85, \nDış Derinlik Min 0.50 Max 1.15 \nolmalı",
+      "Active": true
+    },
+    {
+      "Id": 13,
+      "Title": "CROSS ARALIK ÖLÇÜMÜ",
+      "Text": "Kısa cross orta bölgede mesafe 360±1 olmalı Uzun Crosslar arası mesafe Min.312 mm olmalı",
+      "Active": true
+    },
+    {
+      "Id": 14,
+      "Title": "COOLING SIDE DELİK SAYILARI",
+      "Text": "1-(120 Ejot)..............\n2-(12 Adet M8)..............\n3-(8 Adet Ø19.20)..............\n4-(18 Adet Burç)..............\n5-(8 Adet Yan etek)..............\n6-(16 Adet arka kısım)..............\n",
+      "Active": true
+    },
+    {
+      "Id": 25,
+      "Title": "T CROS DELİK KAÇIKLIK KONTROLÜ",
+      "Text": "Delik kenar arası mesafe 2.00mm düşük olmamalıdır.",
+      "Active": true
+    },
+    {
+      "Id": 39,
+      "Title": "T PROFİL VE CROSS POKA YOKE VE DELİK VARLIK KONTROL",
+      "Text": "T profilde 2 adet Ø 7.00 1 ve 2 crosslarda Ø7.00 poka yoke delikler doğru olmalı. Yan Ejot delikleri varlık kontrol mastarı ile kontrol edilecek.",
+      "Active": true
+    },
+    {
+      "Id": 31,
+      "Title": "CROSS VE PROFİL M6 DİŞ KONTROL",
+      "Text": "Profil kenar kısımlarında 9 adet M6 dişler olmalı. Tcros bölgesinde 9 adet M6 diş olmalı.",
+      "Active": true
+    },
+    {
+      "Id": 40,
+      "Title": "MASKELEME",
+      "Text": "T-Crossda 16 Adet Dış 4 Adet iç kısımda M6 dişler maskeleme yapılarak boya alması engellenmeli.",
+      "Active": true
+    },
+    {
+      "Id": 22,
+      "Title": "Ön Döküm Delik Kontrol",
+      "Text": "Döküm iç kısmında 3 adet Ø5.50 dış köşe kısmında 1 adet Ø10 delik, 4 adet M10 ve 3 adet M6 açılmış olmalı.",
+      "Active": true
+    },
+    {
+      "Id": 41,
+      "Title": "KISA MODÜL KONTROL",
+      "Text": "Kısa crosslar arasında 2 bölgede modül montabilite kontrolleri yapılacak.",
+      "Active": true
+    },
+    {
+      "Id": 7,
+      "Title": "GENEL GÖRSEL KONTROL TEMİZLİK",
+      "Text": "Parça yüzeylerinde derin çizik, ezik, vuruk deformasyon, vb. hatalar olmamalı. Detay parçalar tam olmalı.",
+      "Active": true
+    },
+    {
+      "Id": 5,
+      "Title": "KONTROL TARİHİ/VARDİYA VE SAATİ",
+      "Text": "Kontrol başlangıç Bitiş kaydedilecek",
+      "Active": true
+    },
+    {
+      "Id": 8,
+      "Title": "KAYNAK KONTROLLERİ",
+      "Text": "Burç ve crosslarda kaynak eksikliği, süresizlik, porozite, Max. 3.00 mm, eksen kaçıklığı olmamalı.",
+      "Active": true
+    },
+    {
+      "Id": 9,
+      "Title": "Ø 44 BÖLGESİ KONTROL",
+      "Text": "Conta kanalında kaçıklık 2.50 mm altı olmalı.\n\n8 adet M5 diş açılmış olmalı. Mastar ile M5 delik pozisyon kontrolü yapılmalı.",
+      "Active": true
+    },
+    {
+      "Id": 10,
+      "Title": "BURÇ KONTROL (COOLING TARAFI)",
+      "Text": "Burç Yükseklik 20±0.50\n\nİlk ve son burçlarda delik çap kontrolü (Ø16±0.20)",
+      "Active": true
+    },
+    {
+      "Id": 11,
+      "Title": "77 ÖLÇÜSÜ",
+      "Text": "76.50 ile 77.20 arası olmalıdır.",
+      "Active": true
+    },
+    {
+      "Id": 12,
+      "Title": "122 ÖLÇÜSÜ",
+      "Text": "121.50 ile 122.50 arası olmalıdır.",
+      "Active": true
+    },
+    {
+      "Id": 15,
+      "Title": "EJOT DELİK DERİNLİK KONTROLÜ",
+      "Text": "Ejot deliklerden örnekleme 12 adet 4.70 * 15.00 mm çap ve derinlik kontrolü yapılacak, köşelerden ve orta kısımlarından kontrol yapılmalı. Yan Ejot delikleri varlık kontrol mastarı ile kontrol edilecek.",
+      "Active": true
+    },
+    {
+      "Id": 17,
+      "Title": "COOLİNG SİDE BİRLEŞTİRME",
+      "Text": "Cooling side kapak oturmalı delikler karşılamalı",
+      "Active": true
+    },
+    {
+      "Id": 18,
+      "Title": "M8 DERİNLİK KONTROLÜ",
+      "Text": "12 adet M8 diş derinlikleri (15.00 mm) uygun olmalı, \nmontabilite civata yüzeyleri oturmalı.",
+      "Active": true
+    },
+    {
+      "Id": 19,
+      "Title": "MASKELEME",
+      "Text": "Crosslarda 12 Adet M8 dişler ve Tucker üzerinde maskeleme yapılacak boya alması engellenmeli.",
+      "Active": true
+    },
+    {
+      "Id": 20,
+      "Title": "BURÇ KAÇIKLIK KONTROL",
+      "Text": "Üst yüzeylerde 5.00 mm altında olmamalı.",
+      "Active": true
+    },
+    {
+      "Id": 21,
+      "Title": "MASKELEME DÖKÜM BÖLGESİ",
+      "Text": "     ",
+      "Active": true
+    },
+    {
+      "Id": 23,
+      "Title": "GRUNDİNG BOLT KONTROLÜ (TUCKER)",
+      "Text": "Grunding Bolt ve üzerinde somun takılı olmalı.",
+      "Active": true
+    },
+    {
+      "Id": 24,
+      "Title": "PARÇA ÇEVİRME",
+      "Text": "Parçayı Cover tarafına deforme etmeden çevrilmeli.",
+      "Active": true
+    },
+    {
+      "Id": 26,
+      "Title": "BURÇ KAÇIKLIK KONTROL (COOLİNG TARAFI)",
+      "Text": "Ön döküm burç 2.00 mm \nL profil burç 1.00 mm \naltında olmamalı",
+      "Active": true
+    },
+    {
+      "Id": 28,
+      "Title": "CROSS DELİK SAYILARI KONTROLÜ",
+      "Text": "1-(101 Adet Ejot)\n2-(10xØ5.50/2xØ7/8xM6)(T cross)\n3-(25 Adet 1. Sıra)\n4-(30 Adet 2. Sıra)\n5-(25 Adet 3. Sıra)\n6-(31 Adet 4. Sıra)\n7-(17 Adet 2\u002B8\u002B5\u002B2 kısa)",
+      "Active": true
+    },
+    {
+      "Id": 29,
+      "Title": "UZUN CROSS MODÜL KONTROL",
+      "Text": "Uzun Crosslar arasında 8 bölgede modül montabilite kontrolleri yapılacak.",
+      "Active": true
+    },
+    {
+      "Id": 30,
+      "Title": "GENEL GÖRSEL KONTROL TEMİZLİK",
+      "Text": "Parça yüzeylerinde derin çizik, ezik, vuruk deformasyon, vb. hatalar olmamalı. Detay parçalar tam olmalı.",
+      "Active": true
+    },
+    {
+      "Id": 32,
+      "Title": "EJOT DELİK DERİNLİK KONTROLÜ",
+      "Text": "Ejot deliklerden örnekleme 12 adet 4.70 * 13.00 mm çap ve derinlik kontrolü yapılacak, köşelerden ve orta kısımlardan kontrol yapılmalı.",
+      "Active": true
+    },
+    {
+      "Id": 33,
+      "Title": "COVER BİRLEŞTİRME",
+      "Text": "Cover Montaj Hazırlık, \n\nCover Montaj, \n\nCover kapak oturmalı ejot delikler \nkarşılamalı. Eksik delik olmamalı.",
+      "Active": true
+    },
+    {
+      "Id": 34,
+      "Title": "COVER EVLENDİRME DEMONTE",
+      "Text": "Cover montaj aparatları sökülecek ve üzerinden alınacak ve sehpasına konulacak.",
+      "Active": true
+    },
+    {
+      "Id": 35,
+      "Title": "HAVA İLE TEMİZLEME",
+      "Text": "Cross kanalları içleri ve yüzeyler hava ile çapaktan arındırılmalı.",
+      "Active": true
+    },
+    {
+      "Id": 36,
+      "Title": "MASKELEME",
+      "Text": "Crosslarda 8 Adet M8 dişler maskeleme yapılarak boya alması engellenmeli.",
+      "Active": true
+    },
+    {
+      "Id": 37,
+      "Title": "Ø 5.50 DERİNLİK KONTROL",
+      "Text": "Her crostan örnekleme 2 adet 16.50 derinlik kontrolü yapılacak.",
+      "Active": true
+    },
+    {
+      "Id": 38,
+      "Title": "RAPOR KAPATMA KASALAMA",
+      "Text": "Parça ile gelen rapor kağıdı kapatılacak. Rework ise Rework paletine, \nOK ise OK paletine konulacak.",
+      "Active": true
+    }
+  ],
+  "Definitions": [
+    {
+      "Id": 27,
+      "ControlId": 5,
+      "StationId": 4,
+      "DefinitionLine": 1,
+      "Shift": "A",
+      "Image": false,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 31,
+      "ControlId": 10,
+      "StationId": 4,
+      "DefinitionLine": 5,
+      "Shift": "B",
+      "Image": false,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 59,
+      "ControlId": 40,
+      "StationId": 14,
+      "DefinitionLine": 5,
+      "Shift": "A\u002BB",
+      "Image": false,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 61,
+      "ControlId": 38,
+      "StationId": 14,
+      "DefinitionLine": 6,
+      "Shift": "A\u002BB",
+      "Image": false,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 28,
+      "ControlId": 7,
+      "StationId": 4,
+      "DefinitionLine": 2,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 32,
+      "ControlId": 11,
+      "StationId": 4,
+      "DefinitionLine": 6,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 33,
+      "ControlId": 12,
+      "StationId": 4,
+      "DefinitionLine": 7,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 34,
+      "ControlId": 13,
+      "StationId": 4,
+      "DefinitionLine": 8,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 35,
+      "ControlId": 14,
+      "StationId": 4,
+      "DefinitionLine": 9,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 36,
+      "ControlId": 15,
+      "StationId": 5,
+      "DefinitionLine": 1,
+      "Shift": "A\u002BB",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 38,
+      "ControlId": 17,
+      "StationId": 5,
+      "DefinitionLine": 3,
+      "Shift": "A\u002BB",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 39,
+      "ControlId": 18,
+      "StationId": 5,
+      "DefinitionLine": 4,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 40,
+      "ControlId": 19,
+      "StationId": 5,
+      "DefinitionLine": 5,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 41,
+      "ControlId": 20,
+      "StationId": 5,
+      "DefinitionLine": 6,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 42,
+      "ControlId": 21,
+      "StationId": 3,
+      "DefinitionLine": 1,
+      "Shift": "A\u002BB",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 43,
+      "ControlId": 22,
+      "StationId": 3,
+      "DefinitionLine": 2,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 44,
+      "ControlId": 23,
+      "StationId": 3,
+      "DefinitionLine": 3,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 45,
+      "ControlId": 24,
+      "StationId": 3,
+      "DefinitionLine": 4,
+      "Shift": "A\u002BB",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 46,
+      "ControlId": 25,
+      "StationId": 3,
+      "DefinitionLine": 5,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 60,
+      "ControlId": 39,
+      "StationId": 3,
+      "DefinitionLine": 6,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 47,
+      "ControlId": 26,
+      "StationId": 3,
+      "DefinitionLine": 7,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 48,
+      "ControlId": 16,
+      "StationId": 3,
+      "DefinitionLine": 8,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 50,
+      "ControlId": 29,
+      "StationId": 11,
+      "DefinitionLine": 1,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 51,
+      "ControlId": 30,
+      "StationId": 11,
+      "DefinitionLine": 2,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 52,
+      "ControlId": 31,
+      "StationId": 11,
+      "DefinitionLine": 3,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 53,
+      "ControlId": 32,
+      "StationId": 12,
+      "DefinitionLine": 1,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 54,
+      "ControlId": 33,
+      "StationId": 12,
+      "DefinitionLine": 2,
+      "Shift": "A\u002BB",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 62,
+      "ControlId": 41,
+      "StationId": 12,
+      "DefinitionLine": 3,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 55,
+      "ControlId": 34,
+      "StationId": 14,
+      "DefinitionLine": 1,
+      "Shift": "A\u002BB",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 56,
+      "ControlId": 35,
+      "StationId": 14,
+      "DefinitionLine": 2,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 57,
+      "ControlId": 36,
+      "StationId": 14,
+      "DefinitionLine": 3,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 58,
+      "ControlId": 37,
+      "StationId": 14,
+      "DefinitionLine": 4,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 29,
+      "ControlId": 8,
+      "StationId": 4,
+      "DefinitionLine": 3,
+      "Shift": "A",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 30,
+      "ControlId": 9,
+      "StationId": 4,
+      "DefinitionLine": 4,
+      "Shift": "A\u002BB",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 37,
+      "ControlId": 16,
+      "StationId": 5,
+      "DefinitionLine": 2,
+      "Shift": "A\u002BB",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    },
+    {
+      "Id": 49,
+      "ControlId": 28,
+      "StationId": 3,
+      "DefinitionLine": 9,
+      "Shift": "B",
+      "Image": true,
+      "Base64": null,
+      "ImageFile": null,
+      "ShiftList": null,
+      "Control": null,
+      "Station": null
+    }
+  ],
+  "ReportMains": [
+    {
+      "Id": 88,
+      "StationId": 0,
+      "ComponentId": 1,
+      "FrameNo": "f4d00000036",
+      "StartingDate": "2023-12-07T13:40:19.252194Z",
+      "EndingDate": "2023-12-07T14:10:52.369607Z",
+      "Done": true,
+      "ProcessingDone": true,
+      "Cancelled": false,
+      "ProcessedLine": 0
+    },
+    {
+      "Id": 89,
+      "StationId": 0,
+      "ComponentId": 1,
+      "FrameNo": "f1515",
+      "StartingDate": "2023-12-07T13:59:15.209565Z",
+      "EndingDate": "2023-12-08T13:19:15.150363Z",
+      "Done": true,
+      "ProcessingDone": true,
+      "Cancelled": false,
+      "ProcessedLine": 0
+    },
+    {
+      "Id": 86,
+      "StationId": 0,
+      "ComponentId": 1,
+      "FrameNo": "12345FRM",
+      "StartingDate": "2023-12-07T13:14:10.727667Z",
+      "EndingDate": "2023-12-07T13:16:18.470997Z",
+      "Done": true,
+      "ProcessingDone": true,
+      "Cancelled": false,
+      "ProcessedLine": 0
+    },
+    {
+      "Id": 87,
+      "StationId": 0,
+      "ComponentId": 1,
+      "FrameNo": "rte34",
+      "StartingDate": "2023-12-07T13:28:45.346776Z",
+      "EndingDate": "2023-12-07T14:02:18.609508Z",
+      "Done": true,
+      "ProcessingDone": true,
+      "Cancelled": false,
+      "ProcessedLine": 0
+    },
+    {
+      "Id": 85,
+      "StationId": 0,
+      "ComponentId": 1,
+      "FrameNo": "ert",
+      "StartingDate": "2023-12-07T12:54:23.506409Z",
+      "EndingDate": "2023-12-07T13:11:29.508472Z",
+      "Done": true,
+      "ProcessingDone": true,
+      "Cancelled": false,
+      "ProcessedLine": 0
+    }
+  ],
+  "ReportDetails": [
+    {
+      "Id": 592,
+      "DefinitionId": 27,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 4,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 593,
+      "DefinitionId": 28,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 4,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 594,
+      "DefinitionId": 29,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 4,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 595,
+      "DefinitionId": 30,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 4,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 596,
+      "DefinitionId": 31,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 4,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 597,
+      "DefinitionId": 32,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 4,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 598,
+      "DefinitionId": 33,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 4,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 599,
+      "DefinitionId": 34,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 4,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 600,
+      "DefinitionId": 35,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 4,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 601,
+      "DefinitionId": 36,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 5,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 602,
+      "DefinitionId": 37,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 5,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 603,
+      "DefinitionId": 38,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 5,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 604,
+      "DefinitionId": 39,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 5,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 605,
+      "DefinitionId": 40,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 5,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 606,
+      "DefinitionId": 41,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 5,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 607,
+      "DefinitionId": 42,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 3,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 608,
+      "DefinitionId": 43,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 3,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 609,
+      "DefinitionId": 44,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 3,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 610,
+      "DefinitionId": 45,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 3,
+      "ReportMainId": 85,
+      "Description": "tuyru",
+      "Ok": false
+    },
+    {
+      "Id": 611,
+      "DefinitionId": 46,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 3,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 612,
+      "DefinitionId": 60,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 3,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 613,
+      "DefinitionId": 47,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 3,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 614,
+      "DefinitionId": 48,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 3,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 615,
+      "DefinitionId": 49,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 3,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 616,
+      "DefinitionId": 50,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 11,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 617,
+      "DefinitionId": 51,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 11,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 618,
+      "DefinitionId": 52,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 11,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 619,
+      "DefinitionId": 53,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 12,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 620,
+      "DefinitionId": 54,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 12,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 621,
+      "DefinitionId": 62,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 12,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 622,
+      "DefinitionId": 55,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 14,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 623,
+      "DefinitionId": 56,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 14,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 624,
+      "DefinitionId": 57,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 14,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 625,
+      "DefinitionId": 58,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 14,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 626,
+      "DefinitionId": 59,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 14,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 627,
+      "DefinitionId": 61,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 14,
+      "ReportMainId": 85,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 628,
+      "DefinitionId": 27,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 4,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 629,
+      "DefinitionId": 28,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 4,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 630,
+      "DefinitionId": 29,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 4,
+      "ReportMainId": 86,
+      "Description": "YALNIS KAYNAK",
+      "Ok": false
+    },
+    {
+      "Id": 631,
+      "DefinitionId": 30,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 4,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 632,
+      "DefinitionId": 31,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 4,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 633,
+      "DefinitionId": 32,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 4,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 634,
+      "DefinitionId": 33,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 4,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 635,
+      "DefinitionId": 34,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 4,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 636,
+      "DefinitionId": 35,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 4,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 637,
+      "DefinitionId": 36,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 5,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 638,
+      "DefinitionId": 37,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 5,
+      "ReportMainId": 86,
+      "Description": "yhg",
+      "Ok": false
+    },
+    {
+      "Id": 639,
+      "DefinitionId": 38,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 5,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 640,
+      "DefinitionId": 39,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 5,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 641,
+      "DefinitionId": 40,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 5,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 642,
+      "DefinitionId": 41,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 5,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 643,
+      "DefinitionId": 42,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 3,
+      "ReportMainId": 86,
+      "Description": "des",
+      "Ok": false
+    },
+    {
+      "Id": 644,
+      "DefinitionId": 43,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 3,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 645,
+      "DefinitionId": 44,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 3,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 646,
+      "DefinitionId": 45,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 3,
+      "ReportMainId": 86,
+      "Description": "uyytrg",
+      "Ok": false
+    },
+    {
+      "Id": 647,
+      "DefinitionId": 46,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 3,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 648,
+      "DefinitionId": 60,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 3,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 649,
+      "DefinitionId": 47,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 3,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 650,
+      "DefinitionId": 48,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 3,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 651,
+      "DefinitionId": 49,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 3,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 652,
+      "DefinitionId": 50,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 11,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 653,
+      "DefinitionId": 51,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 11,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 654,
+      "DefinitionId": 52,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 11,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 655,
+      "DefinitionId": 53,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 12,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 656,
+      "DefinitionId": 54,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 12,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 657,
+      "DefinitionId": 62,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 12,
+      "ReportMainId": 86,
+      "Description": "swd",
+      "Ok": false
+    },
+    {
+      "Id": 658,
+      "DefinitionId": 55,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 14,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 659,
+      "DefinitionId": 56,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 14,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 660,
+      "DefinitionId": 57,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 14,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 661,
+      "DefinitionId": 58,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 14,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 662,
+      "DefinitionId": 59,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 14,
+      "ReportMainId": 86,
+      "Description": "rtyt",
+      "Ok": false
+    },
+    {
+      "Id": 663,
+      "DefinitionId": 61,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 14,
+      "ReportMainId": 86,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 664,
+      "DefinitionId": 27,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 4,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 665,
+      "DefinitionId": 28,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 4,
+      "ReportMainId": 87,
+      "Description": "sumfdh ",
+      "Ok": false
+    },
+    {
+      "Id": 666,
+      "DefinitionId": 29,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 4,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 667,
+      "DefinitionId": 30,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 4,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 668,
+      "DefinitionId": 31,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 4,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 669,
+      "DefinitionId": 32,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 4,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 670,
+      "DefinitionId": 33,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 4,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 671,
+      "DefinitionId": 34,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 4,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 672,
+      "DefinitionId": 35,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 4,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 673,
+      "DefinitionId": 36,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 5,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 674,
+      "DefinitionId": 37,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 5,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 675,
+      "DefinitionId": 38,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 5,
+      "ReportMainId": 87,
+      "Description": "hdhffj",
+      "Ok": false
+    },
+    {
+      "Id": 676,
+      "DefinitionId": 39,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 5,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 677,
+      "DefinitionId": 40,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 5,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 678,
+      "DefinitionId": 41,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 5,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 679,
+      "DefinitionId": 27,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 4,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 680,
+      "DefinitionId": 28,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 4,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 681,
+      "DefinitionId": 29,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 4,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 682,
+      "DefinitionId": 30,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 4,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 683,
+      "DefinitionId": 31,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 4,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 684,
+      "DefinitionId": 32,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 4,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 685,
+      "DefinitionId": 33,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 4,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 686,
+      "DefinitionId": 34,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 4,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 687,
+      "DefinitionId": 35,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 4,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 688,
+      "DefinitionId": 27,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 4,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 689,
+      "DefinitionId": 42,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 3,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 690,
+      "DefinitionId": 43,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 3,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 691,
+      "DefinitionId": 44,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 3,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 692,
+      "DefinitionId": 45,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 3,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 693,
+      "DefinitionId": 46,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 3,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 694,
+      "DefinitionId": 60,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 3,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 695,
+      "DefinitionId": 47,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 3,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 696,
+      "DefinitionId": 48,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 3,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 697,
+      "DefinitionId": 49,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 3,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 698,
+      "DefinitionId": 36,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 5,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 699,
+      "DefinitionId": 37,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 5,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 700,
+      "DefinitionId": 38,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 5,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 701,
+      "DefinitionId": 39,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 5,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 702,
+      "DefinitionId": 40,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 5,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 703,
+      "DefinitionId": 41,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 5,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 704,
+      "DefinitionId": 28,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 4,
+      "ReportMainId": 89,
+      "Description": "cizik var",
+      "Ok": false
+    },
+    {
+      "Id": 705,
+      "DefinitionId": 29,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 4,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 706,
+      "DefinitionId": 30,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 4,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 707,
+      "DefinitionId": 31,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 4,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 708,
+      "DefinitionId": 32,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 4,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 709,
+      "DefinitionId": 33,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 4,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 710,
+      "DefinitionId": 34,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 4,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 711,
+      "DefinitionId": 35,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 4,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 712,
+      "DefinitionId": 50,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 11,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 713,
+      "DefinitionId": 51,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 11,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 714,
+      "DefinitionId": 52,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 11,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 715,
+      "DefinitionId": 53,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 12,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 716,
+      "DefinitionId": 54,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 12,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 717,
+      "DefinitionId": 62,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 12,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 718,
+      "DefinitionId": 55,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 14,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 719,
+      "DefinitionId": 56,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 14,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 720,
+      "DefinitionId": 57,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 14,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 721,
+      "DefinitionId": 58,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 14,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 722,
+      "DefinitionId": 59,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 14,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 723,
+      "DefinitionId": 61,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 14,
+      "ReportMainId": 87,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 724,
+      "DefinitionId": 42,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 3,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 725,
+      "DefinitionId": 43,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 3,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 726,
+      "DefinitionId": 44,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 3,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 727,
+      "DefinitionId": 45,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 3,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 728,
+      "DefinitionId": 46,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 3,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 729,
+      "DefinitionId": 60,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 3,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 730,
+      "DefinitionId": 47,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 3,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 731,
+      "DefinitionId": 48,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 3,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 732,
+      "DefinitionId": 49,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 3,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 733,
+      "DefinitionId": 50,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 11,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 734,
+      "DefinitionId": 51,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 11,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 735,
+      "DefinitionId": 52,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 11,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 736,
+      "DefinitionId": 53,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 12,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 737,
+      "DefinitionId": 54,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 12,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 738,
+      "DefinitionId": 62,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 12,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 739,
+      "DefinitionId": 55,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 14,
+      "ReportMainId": 88,
+      "Description": "wrgsd",
+      "Ok": false
+    },
+    {
+      "Id": 740,
+      "DefinitionId": 56,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 14,
+      "ReportMainId": 88,
+      "Description": "rydhf",
+      "Ok": false
+    },
+    {
+      "Id": 741,
+      "DefinitionId": 57,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 14,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 742,
+      "DefinitionId": 58,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 14,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 743,
+      "DefinitionId": 59,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 14,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 744,
+      "DefinitionId": 61,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 14,
+      "ReportMainId": 88,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 745,
+      "DefinitionId": 36,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 5,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 746,
+      "DefinitionId": 37,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 5,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 747,
+      "DefinitionId": 38,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 5,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 748,
+      "DefinitionId": 39,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 5,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 749,
+      "DefinitionId": 40,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 5,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 750,
+      "DefinitionId": 41,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 5,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 760,
+      "DefinitionId": 42,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 3,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 761,
+      "DefinitionId": 43,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 3,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 762,
+      "DefinitionId": 44,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 3,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 763,
+      "DefinitionId": 45,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 3,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 764,
+      "DefinitionId": 46,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 3,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 765,
+      "DefinitionId": 60,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 3,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 766,
+      "DefinitionId": 47,
+      "Definition": null,
+      "DefinitionLine": 7,
+      "StationId": 3,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 767,
+      "DefinitionId": 48,
+      "Definition": null,
+      "DefinitionLine": 8,
+      "StationId": 3,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 768,
+      "DefinitionId": 49,
+      "Definition": null,
+      "DefinitionLine": 9,
+      "StationId": 3,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 784,
+      "DefinitionId": 50,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 11,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 785,
+      "DefinitionId": 51,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 11,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 786,
+      "DefinitionId": 52,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 11,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 803,
+      "DefinitionId": 53,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 12,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 804,
+      "DefinitionId": 54,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 12,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 805,
+      "DefinitionId": 62,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 12,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 809,
+      "DefinitionId": 55,
+      "Definition": null,
+      "DefinitionLine": 1,
+      "StationId": 14,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 810,
+      "DefinitionId": 56,
+      "Definition": null,
+      "DefinitionLine": 2,
+      "StationId": 14,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 811,
+      "DefinitionId": 57,
+      "Definition": null,
+      "DefinitionLine": 3,
+      "StationId": 14,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 812,
+      "DefinitionId": 58,
+      "Definition": null,
+      "DefinitionLine": 4,
+      "StationId": 14,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 813,
+      "DefinitionId": 59,
+      "Definition": null,
+      "DefinitionLine": 5,
+      "StationId": 14,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    },
+    {
+      "Id": 814,
+      "DefinitionId": 61,
+      "Definition": null,
+      "DefinitionLine": 6,
+      "StationId": 14,
+      "ReportMainId": 89,
+      "Description": null,
+      "Ok": true
+    }
+  ],
+  "Components": []
+}

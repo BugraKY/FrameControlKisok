@@ -1,0 +1,1735 @@
+﻿@{
+    ViewData["Title"] = "StationNumber";
+    //var i = 0;
+    var x = Model.ProcessingForm;
+    var stationNum = Model.Station!.StationNum;
+    var totaldef = Model.Definitions!.Count();
+    var AwaitingBeforeStation = Model.AwaitingBeforeStation;
+    var NextStation = Model.NextStation;
+    var stationId = Model.Station!.Id;
+    var stationNumberbefore = Model.Station!.StationNum - 1;
+}
+@model FrameControlKiosk.ViewModels.StationVM
+@*<h1>Welcome to Dynamic Station Sections</h1>*@
+
+<h3>İş Sırası:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Station!.StationNum</h3>
+<h3>İstasyon Adı: @Model.Station!.Text</h3>
+<h3 id="framenoheader">Frame No:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight:900;color:darkgreen;">@Model.FrameNo</span></h3>
+@if (AwaitingBeforeStation || (stationNum == 1 && x == 0))
+{
+    <h3 id="componentheader">Parça Adı:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight:900;color:darkgreen;"></span></h3>
+}
+else//x == 0 || stationNum == 1
+{
+    <h3 id="componentheader">Parça Adı:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight:900;color:darkgreen;">@Model.Component.Part</span></h3>
+}
+
+<style>
+    .station_sect {
+        width: 100%;
+    }
+
+    div.img_sec {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    html, body {
+        overflow: hidden !important;
+    }
+
+    button:focus {
+        outline: none !important;
+    }
+
+    #front-image-container {
+        position: relative;
+    }
+
+
+
+    .mark_saved_sm {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: 2px dashed red;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .mark_unsaved_sm {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: 2px dashed blue;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .mark_saved_med {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 4px dashed red;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .mark_unsaved_med {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 4px dashed blue;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .mark_saved_lr {
+        position: absolute;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 4px dashed red;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .mark_unsaved_lr {
+        position: absolute;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 4px dashed blue;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .drawCanvas {
+        position: absolute;
+        /*z-index:2;*/
+    }
+
+    @@page {
+        size: 21cm 29.7cm;
+        margin: 30mm 45mm 30mm 45mm;
+        /* change the margins as you want them to be. */
+    }
+
+    /*
+                                                                                                                                                                .btn-success:active {
+                                                                                                                                                                    background-color: #198754 !important;
+                                                                                                                                                                    color: #fff !important;
+                                                                                                                                                                }
+
+                                                                                                                                                                .btn-success:focus {
+                                                                                                                                                                    background-color: #198754 !important;
+                                                                                                                                                                    color: #fff !important;
+                                                                                                                                                                }
+
+                                                                                                                                                                .btn-success:hover {
+                                                                                                                                                                    background-color: #198754 !important;
+                                                                                                                                                                    color: #fff !important;
+                                                                                                                                                                }
+
+                                                                                                                                                                .btn-warning:active {
+                                                                                                                                                                    background-color: #ffc107 !important;
+                                                                                                                                                                    border-color: #ffc107 !important;
+                                                                                                                                                                    color: black !important;
+                                                                                                                                                                }
+
+                                                                                                                                                                .btn-warning:focus {
+                                                                                                                                                                    background-color: #ffc107 !important;
+                                                                                                                                                                    border-color: #ffc107 !important;
+                                                                                                                                                                    color: black !important;
+                                                                                                                                                                }
+
+                                                                                                                                                                .btn-warning:hover {
+                                                                                                                                                                    background-color: #ffc107 !important;
+                                                                                                                                                                    border-color: #ffc107 !important;
+                                                                                                                                                                    color: black !important;
+                                                                                                                                                                }
+                                                                                                                                                                */
+</style>
+@*
+    public int Id { get; set; }
+    public int StationNum { get; set; }//stationLine
+    public string Text { get; set; } = string.Empty;//stationName
+    public string IP {  get; set; } = string.Empty;
+    public string Mac { get; set; } = string.Empty;
+    public bool IsServer { get; set; }
+*@
+<div class="container-fluid">
+    <div class="row" style="position:absolute; width:100%; top:5px;">
+        <div class="col text-center">
+            <img width="250" src="~/expert_logo.png" />
+        </div>
+    </div>
+    <div id="StationReport" class="pt-2">
+
+
+        @for (int i = 0; i < Model.Definitions!.Count(); i++)
+        {
+            if (!AwaitingBeforeStation)
+            {
+                var item = Model.Definitions.ElementAt(i);
+                var filename = item.Id + ".png";
+                <form id="form-@i" method="post" action="/station/sendReport" class="station-form" style="@(x == i ? "" : "display:none;")">
+                    <input name="StationId" value="@Model.Station.Id" type="hidden" />
+                    <input name="ReportDetailDefinitionId" type="hidden" value="@item.Id" />
+                    <input name="ReportMainId" type="hidden" value="@Model.ReportMainId" />
+                    <input name="FrameNo" id="frameNo" type="hidden" value="@Model.FrameNo" />
+                    <div class="report-section" data-id="@item.Id">
+                        <div class="col-12 text-center" style="height:90px;min-height:90px;max-height:90px;">
+                            <h1 style="font-weight:900; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">@item.Control!.Title</h1>
+                        </div>
+                        <div class="row" style="height:600px;">
+                            <div class="col-6 d-flex align-items-center justify-content-center">
+                                <h4>@Html.Raw(item.Control.Text)</h4>
+                            </div>
+                            <div class="col-6 d-flex align-items-center justify-content-center">
+                                @if (item.Image)
+                                {
+                                    <div class="img_sec" style="width:650px;height:650px; /*background-color:antiquewhite*/"><img src="~/assets/frame-images/@filename" /></div>
+                                }
+                            </div>
+                        </div>
+                        <div class="container" style="padding-top:5rem!important;">
+                            <div class="row d-flex align-items-center justify-content-center">
+                                <div class="col">
+                                    <button type="button" id="submitButton" class="btn btn-success m-3 submitButton" style="width:150px; height:50px;" onclick="this.disabled = true; submitForm(@i, true,'',this); this.blur(); ">UYGUN</button>
+                                </div>
+                                <div class="col"></div>
+                                <div class="col">
+                                    @if (i > 0 || stationNum > 1)
+                                    {
+                                        <button type="button" class="btn btn-warning m-3 uygundegil" style="width:150px; height:50px;" onclick="showModal(@i); this.blur(); ">UYGUN DEĞİL</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-warning m-3 uygundegil" style="width:150px; height:50px;" disabled>UYGUN DEĞİL</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Report Section Content -->
+                        <!-- Butonlar -->
+
+                    </div>
+                </form>
+                //x++;
+            }
+
+        }
+
+    </div>
+
+    @*
+    <div id="StationReport" class="pt-5">
+    <form method="post" action="/station/sendReport">
+    <input name="Station.Id" value="@Model.Station.Id" type="hidden" />
+    foreach (var item in Model.Definitions!)
+    {
+
+    <div id="section-@i.ToString()" data-id="@item.Id" class="@(i > 0 ? "d-none" : "")">
+    <div class="col-12 text-center" style="height:90px;min-height:90px;max-height:90px;">
+    <h1 style="font-weight:900; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+    @item.Control!.Title
+    </h1>
+    </div>
+    <div class="row" style="height:600px;">
+    <div class="col-6 d-flex align-items-center justify-content-center">
+    <h2>@item.Control!.Text</h2>
+    </div>
+    <div class="col-6 d-flex align-items-center justify-content-center">
+    <div class="shadow" style="width:700px;height:700px; background-color:antiquewhite">IMAGE</div>
+    </div>
+    <div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+    <button class="btn btn-success m-3" style="width:100px; height:50px;" onclick="ok(@item.Id)" type="submit">UYGUN</button>
+    <button class="btn btn-warning m-3" style="width:100px; height:50px;" onclick="nok(@item.Id)" type="submit">UYGUN DEĞİL</button>
+    </div>
+    </div>
+
+    </div>
+    </div>
+    <input name="ReportDetail.DefinitionId" type="hidden" value="@item.Id" />
+    i++;
+    }
+    </form>
+    </div>
+    *@
+</div>
+<div class="message_section shadow">
+    <div class="alert alert-info station-done d-none">
+        <h3>Bu istasyondaki rapor tamamlandı. Sonraki istasyona devredildi.</h3>
+    </div>
+    <div class="alert alert-info all-done d-none">
+        <h3>Frame Rapor başarılı bir şekilde tamamlandı ve kaydedildi.</h3>
+    </div>
+    <div class="alert alert-info new-report d-none">
+        <h3>Yeni bir rapora başlıyorsunuz.</h3>
+    </div>
+    <div class="alert alert-info awaiting-previous d-none">
+        <h3>Bir önceki istasyonun raporunu tamamlaması bekleniyor.</h3>
+    </div>
+    <div class="alert alert-warning awaiting-station d-none">
+        <h3>Bir sonraki istasyonun raporunu tamamlaması bekleniyor. Lütfen daha sonra tekrar deneyiniz.</h3>
+    </div>
+    <div class="alert alert-info continues d-none">
+        <h3>Bu istasyonda zaten bitirilmemiş bir rapor var ve devam ediyor.</h3>
+    </div>
+    <div class="alert alert-info come-previous d-none">
+        <h3>Önceki istasyondan rapor devraldınız.</h3>
+    </div>
+</div>
+<!-- Modal -->
+
+<div class="modal" id="descriptionModal" style="z-index:1056!important; background-color:rgba(0, 0, 0, .5);">
+    <div class="modal-dialog">
+        <div class="modal-content" style="z-index:1057!important;">
+            <div class="modal-header">
+                <h5 class="modal-title">Açıklama</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="$('#descriptionModal').modal('hide');">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea type="text" id="descriptionText" name="ReportDetail.Description" class="form-control" placeholder="Açıklama yazınız..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary sendDescButton" onclick="this.disabled = true; submitFormWithDescription(currentFormIndex, false);" disabled>Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="cancelModal" style="z-index:1056!important; background-color:rgba(0, 0, 0, .5);">
+    <div class="modal-dialog">
+        <div class="modal-content" style="z-index:1057!important;">
+            <div class="modal-header">
+                <h5 class="modal-title">Raporu iptal ET!</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="$('#cancelModal').modal('hide');">&times;</button>
+            </div>
+            <div class="modal-body">
+                @*<textarea type="text" id="descriptionText" name="ReportDetail.Description" class="form-control" placeholder="Açıklama yazınız..."></textarea>*@
+                <label>Raporu iptal etmek için şifreyi girmeniz gerekiyor.</label>
+                <input type="password" class="form-control cancelInput" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning cancelbutton" onclick="cancelReport();">Raporu İptal ET!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="printModal" style="z-index:1056!important; background-color:rgba(0, 0, 0, .5);">
+    <div class="modal-dialog">
+        <div class="modal-content" style="z-index:1057!important;">
+            <div class="modal-header">
+                <h5 class="modal-title">Raporu Yazdır</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="$('#printModal').modal('hide');">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="printContent">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cooling Side</th>
+                                <th>Uygun</th>
+                                <th>Uygun Değil</th>
+
+                                <th>Bottom Cover</th>
+                                <th>Uygun</th>
+                                <th>Uygun Değil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning cancelbutton" onclick="printReport();">Yazdır</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="coordinateModal">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 1400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">FRAME C-SAMPLE</h5>
+                <button type="button" class="btn btn-danger close close" data-dismiss="modal" onclick="$('#coordinateModal').modal('hide');">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row pl-2 pr-2">
+                    <div class="col shadow" style="border: 1.5px solid #dee2e6; border-radius: 10px; padding:5px; margin-left:5px;">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <div class="alert alert-danger shadow"><h4>ARKA YÜZ</h4></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="rear-image-container">
+                                    <canvas id="rearCanvas" class="drawCanvas" width="562" height="761"></canvas>
+                                    <img src="~/assets/frame-check/@Model.Component!.FrameID/rear.png?@DateTime.Now.Ticks" style="width: 562px;min-width: 562px;min-height: 761px;height: 761px;" draggable="false" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 text-center">
+                        <div style="border-left: 2px solid #dee2e6; height: 100%; margin-left: 50%; "></div>
+                    </div>
+                    <div class="col shadow" style="border: 1.5px solid #dee2e6;border-radius: 10px; padding:5px; margin-right:5px;">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <div class="alert alert-danger shadow"><h4>ÖN YÜZ</h4></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="front-image-container">
+                                    <canvas id="frontCanvas" class="drawCanvas" width="562" height="761"></canvas>
+                                    <img src="~/assets/frame-check/@Model.Component!.FrameID/front.png?@DateTime.Now.Ticks" style="width: 562px;min-width: 562px;min-height: 761px;height: 761px;" draggable="false" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" onclick="$('#cancelModal').modal('show');"><i class="fa fa-ban" aria-hidden="true"></i> Bu Raporu İPTAL ET!</button>
+                <button type="button" class="btn btn-secondary" onclick="clearCanvas('frontCanvas');clearCanvas('rearCanvas');"><i class="fa-solid fa-eraser"></i> Çizimi sil</button>
+                <button class="btn btn-warning" onclick="cancelMarkers();"><i class="fa fa-times" aria-hidden="true"></i> İşaretlenenleri İptal Et</button>
+                <button type="button" class="btn btn-primary applyButton" onclick="apply();"><i class="fa fa-paper-plane" aria-hidden="true"></i> Uygula</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="defineFrameNo" tabindex="-1" aria-labelledby="defineFrameNoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="defineFrameNoLabel">Frame No</h5>
+                <button type="button" class="btn btn-close btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+
+            </div>
+            @*//Parca adı ve frameno en az 4 haneli girildikten sonra raporu baslat butonu enable olsun. *@
+
+            <div class="modal-body">
+                <label>Önce Frame no girmelisiniz:</label>
+                <input type="text" id="frameNoText" name="ReportMain.FrameNo" class="form-control" placeholder="Frame No yu giriniz.." />
+                <div class="mt-4">
+                    <label>Parça Adı:</label>
+                    <select class="form-select" id="frameId">
+                        <option value=0 selected disabled>Lütfen Frame parçanızı seçiniz</option>
+                        @foreach (var frame in Model.components)
+                        {
+                            <option value="@frame.FrameID">@frame.Part</option>
+                        }
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <label>Rapor Tarih ve Saati (BAŞLANGIÇ): <span id="report_datetime" style="font-weight:900;"></span></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="startProject" onclick="this.disabled = true; defineFrameNo()" disabled>Raporu Başlat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reportsModal" tabindex="-1" aria-labelledby="reportsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="min-width:1000px;">
+        <div class="modal-content" style="background-color: var(--main-bg-color);">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportsModalLabel">Raporlar</h5>
+                <button type="button" class="btn btn-close btn-danger" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="datepicker">Ara</label>
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" id="datepicker" placeholder="Tarih seçin">
+                                    <span class="input-group-append">
+                                        <span class="input-group-text bg-light d-block">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table" id="reportmainTable">
+                                <thead></thead>
+                                <tbody>
+                                    <tr class="focused">
+                                        <th>Rapor Tarihi</th>
+                                        <th>Başlangıç Zamanı</th>
+                                        <th>Bitiş Zamanı</th>
+                                        <th>Kontrol edilenler</th>
+                                        <th>Tespit edilen hatalar</th>
+                                        <th>Raport tamamlandı</th>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                @*<input class="ui-datepicker" type="date"  />*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="/*this.disabled = true; */downloadReports();">İndir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col" style="bottom:39px;right:130px; position:absolute;"><button class="btn btn-success" style="float: right;" onclick="reConnect()"><i class="fa-solid fa-rotate-right"></i></button></div>
+<div class="col" style="bottom:25px;right:25px; position:absolute;"><button class="btn btn-outline-danger m-3" style="float:right;" data-bs-toggle="modal" data-bs-target="#passwordModal">Yetkili</button></div>
+
+
+@*<script src="~/js/websocket.js" type="text/javascript"></script>*@
+@section Scripts {
+    <script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+    <!-- Include the SignalR JavaScript client library from ASP.NET Core MVC script tag helper -->
+    @*<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>*@
+
+
+
+    @*Web Socket*@
+    <script>
+        var message = "";
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/signalhub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        connection.on("ReceiveMessage", function (user, message) {
+            if (user == '@Model.Station.StationNum') {
+
+                console.log("Receive Message:");
+                console.log(message);
+                location.href = 'http://127.0.0.1';
+            }
+
+        });
+
+        connection.start().catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        // This function can be used to send messages from the client to the server hub.
+        function sendMessageToHub(user, message) {
+            connection.invoke("SendMessage", user, message)
+                .then(function () {
+                    //istasyonda rapor bittiğinde tetikleniyor.
+                    //location.href = 'http://127.0.0.1';
+                    //console.log("Bu istasyonda rapor biter..");
+                    //console.log("user:");
+                    //console.log(user);
+                    //console.log("Message:");
+                    //console.log(message);
+
+                    if (user == 4) {
+                        console.log("reporting ended. Printing triggered!");
+
+
+                        location.href = 'http://192.168.1.101:5000' + '/station/print/' + reportMainId.toString(); //DEBUGDA YÖNLENDİRİLECEK.
+                        /*
+                        $.ajax({
+                            url: '/station/print/' + reportMainId.toString(),
+                            type: 'post',
+                            contentType: "application/json",
+                            success: function (response) {
+
+                                console.log(response);
+
+
+
+                                setTimeout(function () {
+
+                                    var printContent = $('#printContent').html();
+                                    console.log(printContent);
+
+                                    document.body.innerHTML = printContent;
+
+                                    window.print();
+
+                                    //location.href = 'http://127.0.0.1'; //ORİJİNALDE YÖNLENDİRİLECEK.
+                                    location.href = 'http://localhost:5000/station/3'; //DEBUGDA YÖNLENDİRİLECEK.
+
+                                }, 3000);
+                            },
+                            error: function (error) {
+
+                            }
+                        });
+                        */
+
+                    }
+                    else {
+                        location.href = 'http://127.0.0.1';
+                    }
+
+                })
+                .catch(function (err) {
+                    console.error(err.toString());
+                });
+        }
+
+    </script>
+    @*Web Socket*@
+
+
+
+    <script>
+
+        //var markerPub;
+        var currentFormIndex;
+        var totaldef = @totaldef;
+        var indexOfDef = @x;
+        var awaitingBeforeSta = '@AwaitingBeforeStation';
+        var takenOver = '@NextStation';
+        var stationNumber = '@stationNum';
+        var reportMainId = @Model.ReportMainId;
+        var frontPictureBase64 = '';
+        var rearPictureBase64 = '';
+        var frameId = 0;
+        //var reportDetailId = $('.report-section').data('id');
+
+        var coordinateChecks = [
+            /*
+            //birinci sıra
+            { id: 1, coordinateId: 1, "coordinate": { "x": 62, "y": 189, "imageType": 1, "markSize": 1 }, marked: true, saved: false },
+            { id: 2, coordinateId: 2, "coordinate": { "x": 159, "y": 184, "imageType": 1, "markSize": 1 }, marked: true, saved: false },
+            { id: 3, coordinateId: 3, "coordinate": { "x": 250, "y": 180, "imageType": 1, "markSize": 1 }, marked: true, saved: false },
+            { id: 4, coordinateId: 4, "coordinate": { "x": 344, "y": 177, "imageType": 1, "markSize": 1 }, marked: true, saved: false },
+            { id: 5, coordinateId: 5, "coordinate": { "x": 444, "y": 173, "imageType": 1, "markSize": 1 }, marked: true, saved: false },
+            { id: 6, coordinateId: 6, "coordinate": { "x": 65, "y": 323, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 7, coordinateId: 7, "coordinate": { "x": 162, "y": 320, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 8, coordinateId: 8, "coordinate": { "x": 253, "y": 317, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 9, coordinateId: 9, "coordinate": { "x": 347, "y": 313, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 10, coordinateId: 10, "coordinate": { "x": 445, "y": 310, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 11, coordinateId: 11, "coordinate": { "x": 71, "y": 458, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 12, coordinateId: 12, "coordinate": { "x": 167, "y": 455, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 13, coordinateId: 13, "coordinate": { "x": 258, "y": 453, "imageType": 1, "markSize": 1 }, marked: true, saved: false },
+            { id: 14, coordinateId: 14, "coordinate": { "x": 350, "y": 450, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 15, coordinateId: 15, "coordinate": { "x": 449, "y": 448, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 16, coordinateId: 16, "coordinate": { "x": 77, "y": 590, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 17, coordinateId: 17, "coordinate": { "x": 172, "y": 589, "imageType": 1, "markSize": 1 }, marked: true, saved: false },
+            { id: 18, coordinateId: 18, "coordinate": { "x": 262, "y": 587, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            { id: 19, coordinateId: 19, "coordinate": { "x": 353, "y": 586, "imageType": 1, "markSize": 1 }, marked: true, saved: false },
+            { id: 20, coordinateId: 20, "coordinate": { "x": 452, "y": 585, "imageType": 1, "markSize": 2 }, marked: true, saved: false },
+            //ikinci sıra
+            { id: 21, coordinateId: 21, "coordinate": { "x": 94, "y": 141, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 22, coordinateId: 22, "coordinate": { "x": 108, "y": 145, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 127, "y": 142, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 133, "y": 147, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 170, "y": 143, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 176, "y": 148, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 197, "y": 148, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 203, "y": 143, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 209, "y": 148, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 222, "y": 148, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 266, "y": 149, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 275, "y": 149, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 309, "y": 149, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 327, "y": 149, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 333, "y": 143, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 339, "y": 143, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 351, "y": 149, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 363, "y": 144, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 393, "y": 149, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 405, "y": 144, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 415, "y": 150, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 437, "y": 150, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 447, "y": 144, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 482, "y": 151, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 490, "y": 145, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 72, "y": 268, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 90, "y": 268, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 105, "y": 265, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 109, "y": 270, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 119, "y": 267, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 128, "y": 269, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 137, "y": 265, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 147, "y": 269, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 169, "y": 265, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 179, "y": 269, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 188, "y": 266, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 199, "y": 270, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 208, "y": 268, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 219, "y": 266, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 229, "y": 270, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 239, "y": 266, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 257, "y": 265, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 262, "y": 270, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 324, "y": 266, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 328, "y": 270, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 335, "y": 268, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 338, "y": 268, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 348, "y": 270, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 356, "y": 266, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 366, "y": 270, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 376, "y": 269, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 387, "y": 266, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 397, "y": 270, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 405, "y": 266, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 417, "y": 271, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 438, "y": 267, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 448, "y": 271, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 456, "y": 267, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 465, "y": 269, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 474, "y": 266, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 478, "y": 270, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 488, "y": 269, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 491, "y": 269, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 510, "y": 269, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            //üçüncü sıra
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 72, "y": 393, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 88, "y": 394, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 91, "y": 391, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 99, "y": 389, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 108, "y": 394, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 111, "y": 385, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 133, "y": 394, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 146, "y": 389, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 169, "y": 390, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 176, "y": 394, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 191, "y": 390, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 198, "y": 394, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 202, "y": 385, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 223, "y": 393, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 235, "y": 390, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 259, "y": 389, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 268, "y": 394, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 278, "y": 389, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 310, "y": 394, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 321, "y": 389, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 328, "y": 393, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 338, "y": 390, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 341, "y": 390, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 354, "y": 393, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 365, "y": 389, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 370, "y": 383, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 390, "y": 389, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 395, "y": 393, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 411, "y": 388, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 419, "y": 393, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 440, "y": 393, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 453, "y": 389, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 458, "y": 380, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 478, "y": 389, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 485, "y": 394, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 490, "y": 392, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 495, "y": 390, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 512, "y": 392, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 71, "y": 519, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 92, "y": 519, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 105, "y": 516, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 109, "y": 521, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 110, "y": 510, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 129, "y": 521, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 139, "y": 515, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 149, "y": 520, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 170, "y": 515, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 180, "y": 520, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 190, "y": 515, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 200, "y": 520, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 203, "y": 510, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 221, "y": 514, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 232, "y": 520, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 241, "y": 514, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 258, "y": 513, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 263, "y": 519, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 327, "y": 513, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 331, "y": 519, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 350, "y": 518, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 359, "y": 513, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 368, "y": 518, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 370, "y": 508, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 390, "y": 513, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 400, "y": 518, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 410, "y": 513, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 420, "y": 518, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 440, "y": 512, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 450, "y": 518, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 460, "y": 512, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 462, "y": 508, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 478, "y": 512, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 483, "y": 517, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 494, "y": 515, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 515, "y": 515, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 155, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 190, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 255, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 330, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 385, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 435, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 525, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 565, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 595, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 30, "y": 625, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 532, "y": 161, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 532, "y": 193, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 532, "y": 256, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 534, "y": 331, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 535, "y": 380, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 536, "y": 429, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 538, "y": 520, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 539, "y": 560, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 540, "y": 586, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 541, "y": 617, "imageType": 2, "markSize": 2 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 71, "y": 643, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 81, "y": 643, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 99, "y": 642, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 119, "y": 642, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 146, "y": 642, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 170, "y": 642, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 192, "y": 642, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 210, "y": 642, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 236, "y": 641, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 249, "y": 641, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 260, "y": 641, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 280, "y": 641, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 322, "y": 641, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 332, "y": 640, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 369, "y": 640, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 381, "y": 639, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 392, "y": 639, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 414, "y": 639, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 456, "y": 639, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 470, "y": 638, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 481, "y": 639, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 500, "y": 638, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 506, "y": 637, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 516, "y": 637, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 104, "y": 664, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 104, "y": 675, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 104, "y": 698, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 104, "y": 720, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 104, "y": 743, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 104, "y": 746, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 104, "y": 755, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 227, "y": 662, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 227, "y": 673, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 228, "y": 682, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 228, "y": 694, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 228, "y": 706, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 228, "y": 719, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 228, "y": 731, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 228, "y": 754, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 364, "y": 660, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 364, "y": 671, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 365, "y": 691, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 365, "y": 704, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 365, "y": 716, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 365, "y": 729, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 366, "y": 750, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 366, "y": 758, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 357, "y": 760, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 350, "y": 762, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 326, "y": 762, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 296, "y": 762, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 264, "y": 764, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 237, "y": 764, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 228, "y": 764, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 484, "y": 644, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 484, "y": 658, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 484, "y": 669, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 486, "y": 691, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 486, "y": 713, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 486, "y": 735, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 487, "y": 740, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 487, "y": 750, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 20, "y": 678, "imageType": 2, "markSize": 3 }, marked: false, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 63, "y": 752, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 77, "y": 767, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 116, "y": 794, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 216, "y": 791, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 239, "y": 793, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 243, "y": 790, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 269, "y": 781, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 269, "y": 789, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 282, "y": 795, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 298, "y": 789, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 312, "y": 794, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 325, "y": 788, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 325, "y": 781, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 45, "y": 754, "imageType": 2, "markSize": 3 }, marked: false, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 96, "y": 795, "imageType": 2, "markSize": 3 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 463, "y": 786, "imageType": 2, "markSize": 3 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 511, "y": 743, "imageType": 2, "markSize": 3 }, marked: false, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 535, "y": 670, "imageType": 2, "markSize": 3 }, marked: false, saved: false },
+
+            //en üsttekinoktalar
+            { id: 21, coordinateId: 21, "coordinate": { "x": 74, "y": 126, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 92, "y": 126, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 113, "y": 126, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 134, "y": 126, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 156, "y": 126, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 176, "y": 127, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 198, "y": 127, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 219, "y": 127, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 240, "y": 127, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 262, "y": 127, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 283, "y": 127, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 303, "y": 128, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 323, "y": 128, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 343, "y": 128, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 365, "y": 128, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 385, "y": 129, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 405, "y": 129, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 426, "y": 129, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 446, "y": 129, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 467, "y": 129, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 487, "y": 129, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 506, "y": 129, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            //sağdaki siyah küçük noktalar
+            { id: 21, coordinateId: 21, "coordinate": { "x": 520, "y": 141, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 520, "y": 149, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 520, "y": 162, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 520, "y": 183, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 520, "y": 204, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 521, "y": 225, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 521, "y": 246, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 521, "y": 267, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 522, "y": 289, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 522, "y": 310, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 522, "y": 332, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 523, "y": 354, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 523, "y": 376, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 523, "y": 397, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 524, "y": 419, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 524, "y": 440, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 525, "y": 461, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 525, "y": 483, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 526, "y": 504, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 526, "y": 527, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 526, "y": 549, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 527, "y": 571, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 528, "y": 593, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 528, "y": 615, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 529, "y": 636, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 530, "y": 659, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            //soldaki siyah küçük noktalar
+            { id: 21, coordinateId: 21, "coordinate": { "x": 60, "y": 137, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 60, "y": 157, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 179, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 200, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 222, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 244, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 266, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 288, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 310, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 331, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 58, "y": 353, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 58, "y": 375, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 58, "y": 398, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 58, "y": 420, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 58, "y": 442, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 58, "y": 464, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 487, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 510, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 531, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 553, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 576, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 598, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 621, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 59, "y": 643, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 58, "y": 666, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 58, "y": 689, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 62, "y": 706, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 73, "y": 725, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 84, "y": 744, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 95, "y": 765, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+            { id: 21, coordinateId: 21, "coordinate": { "x": 113, "y": 776, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 134, "y": 776, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 154, "y": 776, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 175, "y": 775, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 195, "y": 775, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 216, "y": 775, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 236, "y": 774, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 257, "y": 774, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 277, "y": 773, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 297, "y": 773, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 318, "y": 772, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 338, "y": 772, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 358, "y": 772, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 379, "y": 771, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 399, "y": 771, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 419, "y": 771, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 439, "y": 770, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 459, "y": 769, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 479, "y": 769, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 496, "y": 756, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 505, "y": 737, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 517, "y": 717, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 528, "y": 697, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+            { id: 21, coordinateId: 21, "coordinate": { "x": 530, "y": 681, "imageType": 2, "markSize": 1 }, marked: true, saved: false },
+
+
+            */
+        ];
+
+
+
+        /* DRAWS */
+
+        let drawData = [];
+        let drawList = [];
+        let drawed = 0;
+
+
+        let drawSavedData = [];
+        let drawSavedList = [];
+
+
+
+        const frontCanvas = drawCanvas('frontCanvas');
+        const rearCanvas = drawCanvas('rearCanvas');
+
+
+        function getDraw() {
+            $.ajax({
+                url: '/station/getDraws/' + reportMainId.toString(),
+                type: 'post',
+                contentType: "application/json",
+                success: function (response) {
+                    drawSaved(response);
+                },
+                error: function (error) {
+
+                }
+            });
+            sendBase64();
+        }
+        /*
+        function drawSaved(response) {
+            var canvasId = '';
+            if (response.imageType == 1)
+                canvasId = 'frontCanvas';
+            else if (response.imageType == 2)
+                canvasId = 'rearCanvas';
+
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.strokeStyle = 'white';
+            ctx.shadowColor = 'black';
+            ctx.shadowBlur = 2;
+            ctx.lineWidth = 2;
+
+
+            response.forEach(item => {
+                drawCoordinates(item.coordinates, ctx);
+            });
+
+        }*/
+        function drawSaved(response) {
+            // İki canvas için de çizim kontekstlerini önceden hazırlayın
+            const frontCanvasCtx = document.getElementById('frontCanvas').getContext('2d');
+            const rearCanvasCtx = document.getElementById('rearCanvas').getContext('2d');
+
+            // Her iki canvas'ı da temizleyin
+            frontCanvasCtx.clearRect(0, 0, frontCanvasCtx.canvas.width, frontCanvasCtx.canvas.height);
+            rearCanvasCtx.clearRect(0, 0, rearCanvasCtx.canvas.width, rearCanvasCtx.canvas.height);
+
+            // Çizim stillerini ayarlayın (opsiyonel, ihtiyaca göre değiştirilebilir)
+            [frontCanvasCtx, rearCanvasCtx].forEach(ctx => {
+                ctx.strokeStyle = 'white';
+                ctx.shadowColor = 'black';
+                ctx.shadowBlur = 2;
+                ctx.lineWidth = 2;
+            });
+
+            // Her bir response öğesi için çizim yap
+            response.forEach(item => {
+                let ctx;
+                if (item.imageType == 1) {
+                    ctx = frontCanvasCtx;
+                } else if (item.imageType == 2) {
+                    ctx = rearCanvasCtx;
+                } else {
+                    return; // Eğer tanımlanmamış bir imageType varsa, çizim yapma
+                }
+
+                drawCoordinates(item.coordinates, ctx);
+            });
+        }
+        function drawCoordinates(coordinates, ctx) {
+            const points = coordinates.split(';');
+            ctx.beginPath();
+
+            points.forEach((point, index) => {
+                const [x, y] = point.split(',').map(Number);
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+
+            ctx.stroke();
+        }
+        function drawCanvas(canvasId) {
+
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+
+            canvas.addEventListener('mousedown', e => {
+                // console.clear();
+                $('#frontCanvas').attr("style", 'z-index:2;');
+                $('#rearCanvas').attr("style", 'z-index:2;');
+                isDrawing = true;
+
+                ctx.strokeStyle = 'red';
+                ctx.shadowColor = 'white';
+                ctx.shadowBlur = 2;
+                ctx.lineWidth = 1;
+                ctx.fillStyle = 'tomato';
+                ctx.beginPath();
+                ctx.moveTo(e.offsetX, e.offsetY);
+
+                console.log("Drawing");
+                console.log(canvas);
+                canDraw = true;
+            });
+
+            canvas.addEventListener('mousemove', e => {
+                if (isDrawing && canDraw) {
+                    ctx.lineTo(e.offsetX, e.offsetY);
+                    ctx.stroke();
+                    drawData.push({ x: e.offsetX, y: e.offsetY });
+                    if (drawData.length > 600) {
+                        //undoLastDraw(canvas, ctx);
+                        canDraw = false;
+                    }
+                }
+
+            });
+
+            canvas.addEventListener('mouseup', () => {
+                $('#frontCanvas').attr("style", 'z-index:0;');
+                $('#rearCanvas').attr("style", 'z-index:0;');
+                isDrawing = false;
+                /*
+                if (drawData.length > 300) {
+                        //undoLastDraw(canvas, ctx);
+                        console.log("cleaning draw");
+                        //undoLastDraw(canvas, ctx);
+                        return;
+                }*/
+                console.log("No Cleaning..");
+
+
+                console.log("Draw ended");
+                console.log(canvas);
+                console.log("---------------------");
+
+                console.log(drawData);
+
+                console.log("Draw formatting:");
+                console.log(formatCoordinatesForSaving(drawData));
+
+                drawList.push({ coordString: formatCoordinatesForSaving(drawData), canvasId: canvasId });
+
+
+                drawData = [];
+
+                console.log("Draw list:");
+                console.log(drawList);
+
+            });
+
+            canvas.addEventListener('mouseout', () => {
+                isDrawing = false;
+
+            });
+            //console.log(canvas);
+
+            //console.log(canvas);
+            return {
+                clearCanvas: function () {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    //console.log(0, 0, canvas.width, canvas.height);
+                }
+            };
+        }
+        function undoLastDraw(canvas, ctx) {
+            // Son çizimi çıkar
+            drawData.pop();
+
+            drawData.forEach(function (val) {
+                console.log(val);
+            });
+
+            // Tüm canvas'ı temizle
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Geriye kalan çizimleri tekrar yap
+            redrawCanvas(ctx);
+        }
+
+        function redrawCanvas(ctx) {
+            ctx.beginPath();
+            drawData.forEach((point, index) => {
+                if (index === 0) {
+                    ctx.moveTo(point.x, point.y);
+                } else {
+                    ctx.lineTo(point.x, point.y);
+                }
+            });
+            ctx.stroke();
+        }
+
+        function sendDrawingData(canvasId) {
+            const data = JSON.stringify(drawData);
+            fetch('/save-drawing', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: data
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function resetDrawingData() {
+            drawData = [];
+            drawList = [];
+            console.clear();
+        }
+        function clearCanvas(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            resetDrawingData();
+
+            getDraw();
+        }
+        function clearAndReset(canvasId) {
+            clearCanvas(canvasId);
+            resetDrawingData();
+        }
+
+        function formatCoordinatesForSaving(drawData) {
+            return drawData.map(point => `${point.x},${point.y}`).join(';');
+        }
+
+
+        /* DRAWS */
+
+
+
+        function cancelReport() {
+            var pass = $('.cancelInput').val();
+            if (pass == "Datho502863")
+                $.ajax({
+                    url: '/station/cancelReport/' + reportMainId.toString(),
+                    type: 'post',
+                    contentType: "application/json",
+                    success: function (response) {
+                        if (response)
+                            $.toast({
+                                heading: 'Bu rapor İPTAL edildi!',
+                                showHideTransition: 'slide',
+                                textColor: '#eee',
+                                icon: 'info',
+                                loader: false,
+                                hideAfter: 5000,
+                                //bgColor: '#39A7FF',
+                                bgColor: '#333',
+                                position: 'bottom-center'
+                            });
+
+                        setTimeout(function () {
+                            location.href = 'http://127.0.0.1';
+                        }, 3000);
+                    },
+                    error: function (error) {
+
+                    }
+                });
+            else
+                $.toast({
+                    heading: 'Şifre doğru değil.',
+                    showHideTransition: 'slide',
+                    textColor: '#eee',
+                    icon: 'warning',
+                    loader: false,
+                    hideAfter: 5000,
+                    //bgColor: '#39A7FF',
+                    bgColor: '#A94438',
+                    position: 'bottom-center'
+                });
+            $('.cancelInput').val('');
+        }
+
+        function showModal(formIndex) {
+            createMarkers();
+            currentFormIndex = formIndex;
+            $('#coordinateModal').modal('show');
+
+        }
+        function getCoordinates() {
+
+            $.ajax({
+                url: '/station/getCoords/' + reportMainId.toString(),
+                type: 'post',
+                contentType: "application/json",
+                success: function (response) {
+        @if (Model.ComponentId == 1)
+        {
+            <text>coordinateChecks = response;</text>
+            
+        }
+        else
+        {
+            <text>coordinateChecks = []; </text>
+        }
+        
+                    createMarkers();
+                },
+                error: function (error) {
+
+                }
+            });
+            sendBase64();
+        }
+        function createMarkers() {
+            clearMarkers();
+            console.log("markers triggerd");
+
+            coordinateChecks.forEach(check => {
+                let marker = document.createElement('div');
+                marker.style.left = check.coordinate.x + 'px';
+                marker.style.top = check.coordinate.y + 'px';
+                marker.id = 'marker_' + check.coordinateId;
+                marker.classList.add('marker');
+
+                // Başlangıçta işaretliyse, işareti göster
+
+                if (check.marked) {
+                    marker.style.opacity = 1;
+                    if (check.coordinate.markSize == 1)
+                        marker.classList.add('mark_saved_sm');
+                    if (check.coordinate.markSize == 2)
+                        marker.classList.add('mark_saved_med');
+                    if (check.coordinate.markSize == 3)
+                        marker.classList.add('mark_saved_lr');
+                }
+                else {
+                    if (check.coordinate.markSize == 1)
+                        marker.classList.add('mark_unsaved_sm');
+                    if (check.coordinate.markSize == 2)
+                        marker.classList.add('mark_unsaved_med');
+                    if (check.coordinate.markSize == 3)
+                        marker.classList.add('mark_unsaved_lr');
+                }
+
+                if (check.coordinate.imageType == "1")
+                    document.getElementById('front-image-container').appendChild(marker);
+                else if (check.coordinate.imageType == "2")
+                    document.getElementById('rear-image-container').appendChild(marker);
+
+                // Tıklama
+                marker.addEventListener('click', function () {
+                    if (!check.saved) {
+                        check.marked = !check.marked; // 'marked' değerini değiştir
+                        this.style.opacity = check.marked ? 1 : 0; // Opaklığı ayarla
+
+                        /*
+                        if (check.marked)
+                            check.reportDetailId = $('.report-section').data('id');
+
+                        */
+                    }
+                    else {
+                        $.toast({
+                            heading: 'Kaydedilmiş işaretleri değiştiremezsiniz!',
+                            showHideTransition: 'slide',
+                            textColor: '#eee',
+                            icon: 'info',
+                            loader: false,
+                            hideAfter: 5000,
+                            //bgColor: '#39A7FF',
+                            bgColor: '#333',
+                            position: 'bottom-center'
+                        })
+                    }
+
+                });
+            });
+
+        }
+        function cancelMarkers() {
+            coordinateChecks.forEach(check => {
+
+                let selector = 'marker_' + check.coordinateId;
+                let marker = document.getElementById(selector);
+
+                if (marker && check.marked && !check.saved) {
+                    marker.style.opacity = 0;
+                    check.marked = false;
+                }
+            });
+        }
+
+        function clearMarkers() {
+            const markers = document.querySelectorAll('.marker');
+            markers.forEach(marker => marker.parentNode.removeChild(marker));
+        }
+
+        function apply() {
+            console.log(coordinateChecks);
+            //createMarkers();
+            $('#descriptionModal').modal('show');
+
+        }
+
+        function submitFormWithDescription(formIndex, isOk) {
+            var description = $('#descriptionText').val();
+
+
+            submitForm(formIndex, isOk, description);
+            $('#descriptionModal').modal('hide');
+            $('#descriptionText').val('');
+            $('.sendDescButton').prop("disabled", false);
+        }
+        function sendBase64() {
+            console.log("base64 triggerd");
+
+            html2canvas(document.getElementById("front-image-container")).then(canvas => {
+                frontPictureBase64 = canvas.toDataURL();
+            });
+            html2canvas(document.getElementById("rear-image-container")).then(canvas => {
+                rearPictureBase64 = canvas.toDataURL();
+            });
+        }
+        function defineFrameNo() {
+            $('input[name="FrameNo"]').val($('#frameNoText').val());
+            $('#framenoheader').html(`Frame No:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight:900;color:darkgreen;">` + $('#frameNoText').val() + `</span>`);
+            $('#componentheader').html(`Parça Adı:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight:900;color:darkgreen;">LR_FRAME V6</span>`);
+            $('#defineFrameNo').modal('hide');
+            submitForm(0, true);
+        }
+        function submitForm(formIndex, isOk, description = '', buttonElement) {
+            document.getElementById('submitButton').disabled = true;
+            var form = $('#form-' + formIndex);
+            var frmIndex = formIndex;
+            //var formData = form.serialize();
+            var coordinatesList = coordinateChecks;
+
+            var formDataObj = {};
+
+            $('#form-' + formIndex).find('input, select, textarea').each(function () {
+                if (this.name && this.value) {
+                    formDataObj[this.name] = $(this).val();
+                }
+            });
+
+
+            console.log(coordinatesList);
+
+            if (description) {
+                //formData += '&ReportDetail.Description=' + encodeURIComponent(description);
+                //formData += '&CoordinateList=' + encodeURIComponent(JSON.stringify(coordinatesList));
+                formDataObj['coordinatesList'] = coordinateChecks;
+                formDataObj.description = description;
+                formDataObj.drawList = drawList;
+
+            }
+            formDataObj.componentId = frameId;
+            formDataObj.ok = isOk;
+            //formData += '&ReportDetail.Ok=' + isOk;
+            console.log(formDataObj);
+            //return;
+            if ($('#frameNo').val().length <= 1) {
+                console.log("sta-4");
+                //burada onclickten basılan butonun disabled propertysi false olmalı. Ancak birden fazla aynı id li aynı butonlar var. Buna dikkat edilmeli
+                setTimeout(function () {
+                    $('#defineFrameNo').modal('show');
+                    buttonElement.disabled = false;
+                }, 100);
+            }
+            else {
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'post',
+                    //data: formData,
+                    data: JSON.stringify(formDataObj),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        reportMainId = response.reportMainId;
+                        console.log("response:");
+                        console.log(response);
+                        $('.awaiting-station').addClass('d-none');
+                        $('.new-report').addClass('d-none');
+                        $('.continues').addClass('d-none');
+
+
+                        //location.href = 'http://localhost:5000/station/@Model.Station!.StationNum';
+                        //Bunu koymamızın sebebi, aynı istasyon içerisinde her çizim eklemede sonrakine aynısını yine ekleniyor.
+
+
+                        if (response.reportMainId) {
+                            $('input[name="ReportMainId"]').val(response.reportMainId);
+                        }
+
+                        if (response.processingDone) {
+                            console.log("sta-4");
+                            sendMessageToHub("@Model.Station!.StationNum", "önceki istasyondan rapor devraldınız.");
+                            //location.href = 'http://127.0.0.1';
+                        }
+
+                        // Formu gizle ve bir sonraki formu göster
+                        if (!response.nextStationAwaiting) {
+                            console.log("sta-2");
+                            form.hide();
+                            $('#form-' + (formIndex + 1)).show();
+                            //location.href = 'http://127.0.0.1/';
+
+                        }
+                        else {
+                            console.log("sta-3");
+                            $('.awaiting-station').removeClass('d-none');
+
+
+                            /*
+                            setTimeout(function () {
+                                location.href = 'http://127.0.0.1';
+                            }, 3000);*/
+
+                        }
+                        if (formIndex == 0) {
+                            $('.submitButton').attr('disabled', true);
+                            $('.uygundegil').attr('disabled', true);
+                            location.href = 'http://127.0.0.1';
+                        }
+                            
+                        console.log(response);
+
+                        coordinateChecks = response.coordinatesList;
+                        getCoordinates();
+                        getDraw();
+                        $('.applyButton').prop("disabled", false);
+                        $('#coordinateModal').modal('hide');
+                        
+                    },
+                    error: function (error) {
+                        $('.applyButton').prop("disabled", false);
+                        $('#coordinateModal').modal('hide');
+                        console.error('Form gönderimi sırasında hata', error);
+                    }
+                });
+            }
+            $('.sendDescButton').prop("disabled", true);
+        }
+
+        function printReport() {
+            //location.href = 'http://localhost:5000/station/print/' + reportMainId.toString();
+            /*
+            $.ajax({
+                url: '/station/print/' + reportMainId.toString(),
+                type: 'post',
+                contentType: "application/json",
+                success: function (response) {
+
+
+                    setTimeout(function () {
+                        location.href = 'http://127.0.0.1';
+                    }, 3000);
+                },
+                error: function (error) {
+
+                }
+            });
+            */
+
+
+
+
+
+            var printContent = $('#printContent').html();
+            console.log(printContent);
+
+            document.body.innerHTML = printContent;
+
+            window.print();
+
+            location.href = 'http://127.0.0.1';
+
+
+
+            /*
+
+            // Yazdırılacak div'in ID'si
+            var printDivId = 'printContent';
+
+            // Yazıcıya gönderilecek içerik
+            var printContents = document.getElementById(printDivId).innerHTML;
+
+            // Yeni bir yazdırma penceresi oluşturma
+            var printWindow = window.open('', '', 'height=842, width=595');
+
+            // Yazdırma penceresine içerik ve A4 sayfa formatını uygulama
+            printWindow.document.write(printContents);
+
+
+            // Yazdırma işlemini başlatma ve pencereyi kapatma
+            printWindow.document.close();
+            printWindow.onload = function () {
+                //printWindow.focus();
+                printWindow.print();
+                //printWindow.close();
+            };
+            */
+
+
+
+            // document.body.innerHTML = printContent;
+
+            //window.print();
+            //location.href = 'http://127.0.0.1';
+            //document.body.innerHTML = originalContents;
+        }
+
+        $(document).ready(function () {
+
+            textKeyboard_Funcs();
+            numKeyboard_Funcs();
+
+            updateTime();
+            setInterval(updateTime, 2000);
+            //setTimeout(consoleClear, 500);
+
+            $('#datepicker').focus(function () {
+                $('#keyboard_text').addClass('d-none');
+                setTimeout(function () {
+                    $('#keyboard_text').addClass('d-none');
+                }, 100); // 100 ms gecikme ile fonksiyonu çalıştır
+            });
+
+            $(document).ready(function () {
+                $('#frameNoText').on('input', function () {
+                    updateStartButtonState(); 
+                });
+
+                $('select#frameId').change(function () {
+                    updateStartButtonState(); 
+                });
+
+                    function updateStartButtonState() {
+                    var frameNoText = $('#frameNoText').val().trim();
+                    frameId = $('select#frameId').val(); 
+
+                    if (frameNoText.length >= 4 && frameId !== null) {
+                        $('#startProject').prop('disabled', false); 
+                    } else {
+                        $('#startProject').prop('disabled', true);
+                    }
+                }
+            });
+
+            if (awaitingBeforeSta == "True") {
+                $("#StationReport").empty().css('height', '838px');
+                $('.awaiting-previous').removeClass('d-none');
+
+                return 0;
+            }
+
+            if (indexOfDef == 0)
+                $('.new-report').removeClass('d-none');
+            else if (indexOfDef > 0) {
+                $('.continues').removeClass('d-none');
+                getCoordinates();
+                getDraw();
+            }
+            if (indexOfDef == 0 && takenOver == "True") {
+                getCoordinates();
+                getDraw();
+                $('.new-report').addClass('d-none');
+                $('.continues').addClass('d-none');
+                $('.come-previous').removeClass('d-none');
+            }
+
+
+            $('#descriptionText').on('input', function () {
+
+                var text = $(this).val();
+
+                text = text.trimStart();
+                $(this).val(text);
+
+                if (text.length > 3)
+                    $('.sendDescButton').prop('disabled', false);  // Butonu etkinleştir
+                else
+                    $('.sendDescButton').prop('disabled', true);   // Butonu devre dışı bırak
+
+                console.log(text.length);
+            });
+
+        });
+        function consoleClear() {
+            console.clear();
+        }
+
+    </script>
+}

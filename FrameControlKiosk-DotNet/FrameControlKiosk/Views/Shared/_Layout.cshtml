@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>ExpertFrameControlKiosk</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="~/lib/jquery-toast-plugin/jquery.toast.min.css" />
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FrameControlKiosk.styles.css" asp-append-version="true" />
+    <style>
+        button {
+            transition: all 0.3s ease;
+        }
+
+            button:hover {
+                color: white !important;
+                animation: resetHover 1s forwards;
+            }
+
+        @@keyframes resetHover {
+            to {
+                background-color: initial; /* Başlangıç rengine dön */
+            }
+        }
+
+        .select2-container--open {
+            z-index: 9999;
+        }
+        /*span.select2.select2-container.select2-container--default.select2-container--below.select2-container--focus {
+            width: 100% !important;
+            height: 40px;
+        }
+        span.select2.select2-container.select2-container--default.select2-container--below.select2-container--open {
+            width: 100% !important;
+            height: 40px;
+        }
+        span select2-container select2-container--default select2-container--open {
+            max-width:100%;
+        }*/
+        span.select2.select2-container.select2-container--default {
+            width: 100% !important;
+            height: 40px;
+        }
+
+        span.selection {
+            height: 40px !important;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;" onkeypress="return disableCtrlKeyCombination(event);" onkeydown="return disableCtrlKeyCombination(event);">
+    <header>
+        @*
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FrameControlKiosk</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        *@
+    </header>
+
+    <main role="main" class="pb-3" style="max-width:1920px;">
+
+        <div class="box_time shadow">
+            <div id="currentTime">
+
+            </div>
+        </div>
+        <div class="system_message">
+
+        </div>
+        @RenderBody()
+    </main>
+
+    <div id="keyboard_text" class="keyboard_text shadow d-none">
+        <div class="keyboard-header text-center">Klavye</div>
+        <div class="row_keyboard">
+            <div class="col-12" style="padding: 2px;">
+                <button class="btn btn-outline-light" value="1"><span>1</span></button>
+                <button class="btn btn-outline-light" value="2"><span>2</span></button>
+                <button class="btn btn-outline-light" value="3"><span>3</span></button>
+                <button class="btn btn-outline-light" value="4"><span>4</span></button>
+                <button class="btn btn-outline-light" value="5"><span>5</span></button>
+                <button class="btn btn-outline-light" value="6"><span>6</span></button>
+                <button class="btn btn-outline-light" value="7"><span>7</span></button>
+                <button class="btn btn-outline-light" value="8"><span>8</span></button>
+                <button class="btn btn-outline-light" value="9"><span>9</span></button>
+                <button class="btn btn-outline-light" value="0"><span>0</span></button>
+                <button class="btn btn-outline-light" id="keyb_back" style="width:120px!important;">BackSpace</button>
+            </div>
+            <div class="col-12" style="padding: 2px;">
+                <button class="btn btn-outline-light" value="q">q</button>
+                <button class="btn btn-outline-light" value="w">w</button>
+                <button class="btn btn-outline-light" value="e">e</button>
+                <button class="btn btn-outline-light" value="r">r</button>
+                <button class="btn btn-outline-light" value="t">t</button>
+                <button class="btn btn-outline-light" value="y">y</button>
+                <button class="btn btn-outline-light" value="u">u</button>
+                <button class="btn btn-outline-light" value="ı">ı</button>
+                <button class="btn btn-outline-light" value="o">o</button>
+                <button class="btn btn-outline-light" value="p">p</button>
+                <button class="btn btn-outline-light" value="ğ">ğ</button>
+                <button class="btn btn-outline-light" value="ü">ü</button>
+            </div>
+            <div class="col-12" style="padding: 2px;">
+                <button class="btn btn-outline-light" value="a">a</button>
+                <button class="btn btn-outline-light" value="s">s</button>
+                <button class="btn btn-outline-light" value="d">d</button>
+                <button class="btn btn-outline-light" value="f">f</button>
+                <button class="btn btn-outline-light" value="g">g</button>
+                <button class="btn btn-outline-light" value="h">h</button>
+                <button class="btn btn-outline-light" value="j">j</button>
+                <button class="btn btn-outline-light" value="k">k</button>
+                <button class="btn btn-outline-light" value="l">l</button>
+                <button class="btn btn-outline-light" value="ş">ş</button>
+                <button class="btn btn-outline-light" value="i">i</button>
+                <button class="btn btn-outline-light" value=",">,</button>
+            </div>
+            <div class="col-12" style="padding: 2px;">
+                <button class="btn btn-outline-light" value="z">z</button>
+                <button class="btn btn-outline-light" value="x">x</button>
+                <button class="btn btn-outline-light" value="c">c</button>
+                <button class="btn btn-outline-light" value="v">v</button>
+                <button class="btn btn-outline-light" value="b">b</button>
+                <button class="btn btn-outline-light" value="n">n</button>
+                <button class="btn btn-outline-light" value="m">m</button>
+                <button class="btn btn-outline-light" value="ö">ö</button>
+                <button class="btn btn-outline-light" value="ç">ç</button>
+                <button class="btn btn-outline-light" value=".">.</button>
+                <button class="btn btn-outline-light" id="keyb_shift" style="width:120px!important;">Shift</button>
+            </div>
+            <div class="col-12" style="padding: 2px;">
+                <button class="btn btn-outline-light" value="Ø">Ø</button>
+                <button class="btn btn-outline-light" value=":">:</button>
+                <button class="btn btn-outline-light" value=""></button>
+                <button class="btn btn-outline-light" id="keyb_space" style="width:50%;">Space</button>
+                <button class="btn btn-outline-light" value="-">-</button>
+                <button class="btn btn-outline-light" value="/">/</button>
+                <button class="btn btn-outline-light" value="+">+</button>
+                @*
+                    <div class="col-3" style="padding: 2px;">
+
+                        <button class="btn btn-outline-light" value="-">-</button>
+                    </div>
+                    <div class="col-6" style="padding: 2px;"><button class="btn btn-outline-light" id="keyb_space" style="width:100%;">Space</button></div>
+                    <div class="col-3" style="padding: 2px;">
+                        <button class="btn btn-outline-light" value="-">-</button>
+                        <button class="btn btn-outline-light" value="/">/</button>
+                        <button class="btn btn-outline-light" value="+">+</button>
+                    </div>
+                *@
+            </div>
+
+
+        </div>
+    </div>
+    <div id="keyboard_numeric" class="keyboard_numeric d-none">
+        <div class="keyboard-header text-center">Numarik Klavye</div>
+        <div class="row_keyboard">
+            <div class="col-12">
+                <button class="btn btn-outline-light" id="keyb_back" style="width:190px!important;">BackSpace</button>
+            </div>
+            <div class="col-12" style="padding: 2px;">
+                <button class="btn btn-outline-light" value="7"><span>7</span></button>
+                <button class="btn btn-outline-light" value="8"><span>8</span></button>
+                <button class="btn btn-outline-light" value="9"><span>9</span></button>
+            </div>
+            <div class="col-12" style="padding: 2px;">
+                <button class="btn btn-outline-light" value="4"><span>4</span></button>
+                <button class="btn btn-outline-light" value="5"><span>5</span></button>
+                <button class="btn btn-outline-light" value="6"><span>6</span></button>
+            </div>
+            <div class="col-12" style="padding: 2px;">
+                <button class="btn btn-outline-light" value="1"><span>1</span></button>
+                <button class="btn btn-outline-light" value="2"><span>2</span></button>
+                <button class="btn btn-outline-light" value="3"><span>3</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Şifre Girişi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="password" id="passwordInput" class="form-control" value="" placeholder="Şifre">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="checkPassword()">Onayla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                <div class="row">
+                    <div class="col">&copy; 2023 - Expert Quality Services</div>
+                    <div class="col"><button class="btn btn-success m-3" style="float:right;" onclick="reConnect()">Rapor Çekmeyi Yeniden Dene</button></div>
+                    <div class="col"></div>
+                </div>
+
+            </div>
+        </footer>
+    *@
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/jqueryui/jquery-ui.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
+    <script src="~/lib/jquery-toast-plugin/jquery.toast.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="~/lib/font-awesome/js/all.min.js"></script>
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.jqueryui.min.js"></script>
+    <script src="~/lib/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/lib/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/lib/jszip/jszip.min.js"></script>
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <script src="~/lib/html2canvas/html2canvas.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @section Scripts{
+
+        <script>
+
+            $(document).ready(function () {
+                //textKeyboard_Funcs();
+                //numKeyboard_Funcs();
+
+                updateTime(); // İlk yüklemede zamanı güncelle
+                setInterval(updateTime, 2000); // Her 2 saniyede bir zamanı güncelle
+                $('html').on('touchstart', function (e) {
+                    // Eğer dokunan parmak sayısı 2 ise
+                    if (e.touches && e.touches.length === 2) {
+                        // Olayın varsayılan davranışını engelle
+                        e.preventDefault();
+                    }
+                });
+
+            });
+        </script>
+    }
+</body>
+</html>
+
+

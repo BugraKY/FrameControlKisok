@@ -1,0 +1,629 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var controlDetailTemp = @"<div class='controlDetail'></div>";
+}
+
+
+@model FrameControlKiosk.ViewModels.ConfigurationVM
+
+<style>
+    td.def_text {
+        width: 400px !important;
+        max-width: 400px !important;
+        word-wrap: break-word !important;
+    }
+
+    #definitionTable_wrapper thead tr {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: var(--main-bg-color);
+    }
+
+    /*
+            td {
+                width: 400px !important;
+                max-width: 400px !important;
+                word-wrap: break-word !important;
+            }
+            td.def_line {
+                width: 50px !important;
+                max-width: 50px !important;
+            }
+                td.def_line {
+                    width: 50px !important;
+                    max-width: 50px !important;
+                }
+                td.def_stationNumber {
+                    width: 50px !important;
+                    max-width: 50px !important;
+                }*/
+</style>
+
+<div class="container" style="height: 100%;">
+    <!--d-flex align-items-center justify-content-center-->
+    <div class="" style="height: 100%;">
+        <h1>Kurulum - [@Model.Station!.Text] / (@Model.Component!.Part)</h1>
+        <input value="@Model.StationId" hidden />
+
+        <div class="row-12">
+            <button class="btn btn-outline-info" onclick="backPage()"><i class="fas fa-arrow-left"></i></button>
+            <button class="btn btn-outline-info" onclick="refrPage()"><i class="fas fa-arrow-left-rotate"></i></button>
+        </div>
+        <div class="row">
+            <div class="col-7">
+
+                <div class="p-3 mt-3 box">
+                    <h4>Yeni Tanım Ekleyin</h4>
+                    <div class="alert alert-danger fade shadow mt-3" id="messageDiv" role="alert">
+                        <span class="message"></span>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <form action="/configuration/definition/add-control" enctype="multipart/form-data" method="post">
+                            <input value="@Model.StationId" asp-for="@Model.StationId" hidden />
+                            <input value="@Model.Component.FrameID" name="ComponentId" hidden />
+                            <select class="select2 form-control" id="choose_control" name="ControlId">
+                                <option value="0" selected disabled>Kontrol tanımı Seçiniz</option>
+                                @if (Model.Controls.Count() > 0)
+                                {
+                                    @foreach (var item in Model.Controls)
+                                    {
+                                        <option value="@item.Id">@item.Title</option>
+                                    }
+                                }
+                            </select>
+                            <select class="select2 form-control" id="shift" name="ShiftList">
+                                <option value="a">A</option>
+                                <option value="b">B</option>
+                                <option value="c">C</option>
+                            </select>
+                            <input class="form-control mb-2" type="number" name="DefinitionLine" placeholder="Kontrol Sırası" />
+                            <input class="form-control" type="file" name="ImageFile" accept="image/png" placeholder="Kontrol için görsel yükleyebilirsiniz. Bir kontrol için sadece tek görsel yüklenebilir" />
+                            <div class="d-flex flex-row-reverse mt-3">
+                                <button class="btn btn-outline-info">Ekle</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-5">
+                <div class="p-3 mt-3 box">
+                    @Html.Raw(controlDetailTemp)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 pt-5">
+            @if (Model.Definition.Count() > 0)
+            {
+                <table class="table" id="definitionTable" style="max-width:1400px;">
+                    <thead>
+                        <tr class="shadow">
+                            <th class="d-none"></th>
+                            <th>Kontrol Sırası</th>
+                            <th>Vardiya</th>
+                            <th>Kontrol Başlığı</th>
+                            <th>Kontrol Detayı</th>
+                            <th class="d-none"></th>
+                            <th class="d-none">markedRemove</th>
+                            <th class="d-none">Image</th>
+                            <th class="text-center">Düzenle</th>
+                        </tr>
+                    </thead>
+                    <tbody id="definition_tbody">
+                        @foreach (var item in Model.Definition)
+                        {
+                            <tr data-id="@item.Id">
+                                <th class="def_id d-none">@item.Id</th>
+                                <td class="def_line">@item.DefinitionLine</td>
+                                <td class="def_stationNumber">@Model.Station.StationNum.ToString()/@item.Shift.ToUpper().ToString()</td>
+                                @if (item.Control == null)
+                                {
+                                    <td class="def_title"></td>
+                                    <td class="def_text"></td>
+                                }
+                                else
+                                {
+                                    <td class="def_title">@item.Control.Title</td>
+                                    <td class="def_text">@Html.Raw(item.Control.Text)</td>
+                                }
+
+                                <td class="def_img d-none">@item.Image.ToString()</td>
+                                <td class="def_marked d-none">False</td>
+                                <td class="def_image d-none"><input type="hidden" id="base64data" name="base64data"></td>
+                                <td class="text-center">
+                                    <button class="btn btn-outline-info" onclick="get_definitionforedit(@item.Id)"><i class="fas fa-edit"></i></button>
+                                    @if (item.Control != null)
+                                    {
+                                        <button class="btn btn-outline-danger" onclick="removeFromDefinition(@item.Id,'@item.Control.Title')"><i class="fas fa-trash"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            }
+            else
+            {
+                <h6>Henüz @Model.Station.Text istasyonuna bir tanım yapılmamış</h6>
+            }
+        </div>
+        @if (Model.Definition.Count() > 0)
+        {
+            <div class="col-12">
+                <div class="d-flex flex-row-reverse">
+                    <!---->
+                    <button class="btn btn-outline-secondary saveChanges" disabled><i class="fas fa-save"></i> Değişiklikleri Kaydet</button>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="editTableBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editTableBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="stationsBackdropLabel">Kontrol tanımını düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex align-items-center justify-content-center d-none" id="spinner_edit">
+                    <div class="spinner-grow" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div class="editTable">
+                    <div class="editableForm">
+                        <div hidden>
+                            <label for="id_input"></label>
+                            <input id="id_input" type="number" value="0" hidden />
+                        </div>
+                        <div class="form-group pb-2">
+                            <label for="line_input">Kontrol Sırası</label>
+                            <input id="line_input" type="number" class="form-control" placeholder="Kontrol Sırası" />
+                        </div>
+                        <div class="form-group pb-2">
+                            <label for="change_shift">Vardiya</label>
+                            <select class="select2" id="change_shift">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group pb-2">
+                            <label for="change_control">Kontrol</label>
+                            <select class="select2" id="change_control">
+                                @if (Model.Controls.Count() > 0)
+                                {
+                                    @foreach (var item in Model.Controls)
+                                    {
+                                        <option value="@item.Id">@item.Title</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group pb-2">
+                            <input id="change_img" class="form-control" type="file" name="ImageFile" accept="image/png" placeholder="" />
+                        </div>
+                        <div class="img-fluid text-center">
+                            <img id="definition_img" width="300" />
+                        </div>
+                        <input id="img_bool" type="text" hidden />
+                        <div class="form-group pb-2 remove_img d-none">
+                            <input type="button" class="btn btn-danger" value="Görüntüyü Kaldır" onclick="removeImage()" />
+                        </div>
+                        <!--
+                        <div class="form-group">
+                            <label for="text_input">Kontrol Detayı</label>
+                            <input id="text_input" type="text" class="form-control" placeholder="Kontrol Detayı" />
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary modal-button" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-outline-info modal-button new_form_station" onclick="saveChangesLocally()">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var localChanges = [];
+        var base64String = '';
+        $(document).ready(function () {
+            textKeyboard_Funcs();
+            numKeyboard_Funcs();
+            $('#choose_control').select2();
+            $('#change_control').select2();
+            $('#change_shift').select2({ multiple: true }).val('[]').trigger('change');
+            $('#shift').select2({
+                multiple: true,
+                placeholder: 'Vardiya seçiniz',
+                allowClear: true,
+                minimumResultsForSearch: -1
+            }).val('[]').trigger('change');
+
+
+            var message = getQueryParam('message');
+            if (message) {
+                $('#messageDiv').alert();
+                $("span.message").html(message);
+                $('#messageDiv').addClass('show');
+
+            }
+
+            var toastMessage = getQueryParam('toastMessage')
+            if (toastMessage) {
+                $.toast({
+                    heading: toastMessage,
+                    showHideTransition: 'slide',
+                    textColor: '#eee',
+                    icon: 'info',
+                    loader: false,
+                    hideAfter: 5000,
+                    //bgColor: '#39A7FF',
+                    bgColor: '#333',
+                    position: 'bottom-center'
+                })
+            }
+
+            shortTable();
+            var minimumSelect = 1;
+            $('#change_shift').select2().on('select2:unselecting', function (e) {
+                var selectedOptions = $(this).val();
+                if (selectedOptions && selectedOptions.length <= minimumSelect) {
+                    // Kullanıcı minimum sayıya ulaştıysa daha fazla kaldırmayı engelle
+                    e.preventDefault();
+                    //alert('En az ' + minimumSelect + ' vardiya seçmek zorundasınız.');
+                    $.toast({
+                        heading: 'En az ' + minimumSelect + ' vardiya seçmek zorundasınız.',
+                        showHideTransition: 'slide',
+                        textColor: '#eee',
+                        icon: 'info',
+                        loader: false,
+                        hideAfter: 5000,
+                        //bgColor: '#39A7FF',
+                        bgColor: '#333',
+                        position: 'bottom-center'
+                    })
+                }
+            });
+
+            $('#change_img').on('change', function (event) {
+                var file = event.target.files[0];
+
+                if (file) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        base64String = e.target.result;
+                        $('#definition_img').attr('src', base64String);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+
+        });
+        $(document.body).on("change", "#choose_control", function () {
+            $.ajax({
+                url: '/configuration/get-definition-controlDet/' + this.value,
+                method: 'GET',
+                success: function (resp) {
+                    $('.controlDetail').html(resp);
+                }
+            });
+        });
+        $('.saveChanges').click(function () {
+            console.log("Sending data: ");
+            console.log(localChanges);
+            $.ajax({
+                url: '/configuration/update-definitions',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(localChanges),
+                success: function (response) {
+                    Swal.fire({
+                        title: "Değişiklikler başarılı bir şekilde gerçekleştirildi!",
+                        icon: "success"
+                    })
+                        .then(() => {
+                            refrPage();
+                        });
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        title: "HATA",
+                        text: status,
+                        icon: "error"
+                    })
+                        .then(() => {
+                            refrPage();
+                        });
+                }
+            });
+        });
+
+        function updateTableView(id, line, shift, stationNum, controlTitle, imageBool, base64) {
+            var row = $('tr[data-id="' + id + '"]');
+            row.find('.def_line').text(line);
+            row.find('.def_shift').text(shift);
+            row.find('.def_stationNumber').text(stationNum + '/' + shift);
+            row.find('.def_title').text(controlTitle);
+            row.find('.def_img').text(imageBool);
+
+            if (base64.length > 10)
+                row.find('.def_image input[type="hidden"]').val(base64);
+
+
+            shortTable(row);
+
+
+        }
+        function saveChangesLocally() {
+            $('.img-fluid .close-mark').remove();
+            var definitionId = $('#id_input').val();
+            var componentId = '@Model.Component.FrameID';
+            var definitionLine = $('#line_input').val();
+            var shift = $('#change_shift').val();
+            var controlId = $('#change_control').val();
+            var controlTitle = $('#change_control option:selected').text();
+            var stationId = @Model.StationId;
+            var stationNum = @Model.Station.StationNum.ToString();
+            var imageBool = $('#img_bool').val();
+
+            console.log("saved locally - Array");
+            console.log(shift);
+
+            //var shifts = shift.split('+');
+            var changedshift = '';
+            var selectedShifts = [];
+            shift.forEach(function (item) {
+                // Select2 elementinde ilgili değeri seç
+                selectedShifts.push(item);
+                changedshift += item + '+';
+
+            });
+
+            console.log("saved locally - String");
+            shift = changedshift.substring(0, (changedshift.length - 1));
+            console.log(shift);
+
+
+            // Değişiklikleri lokal nesnede sakla
+            localChanges[definitionId] = {
+                id: parseInt(definitionId),
+                controlId: parseInt(controlId),
+                stationId: parseInt(stationId),
+                definitionLine: parseInt(definitionLine),
+                componentId: componentId,
+                shift: shift,
+                image: (imageBool === 'true'),
+                base64: base64String
+            };
+            base64String = "";
+            // Tablo satırını güncelle
+            updateTableView(definitionId, definitionLine, shift, stationNum, controlTitle, imageBool, base64String);
+
+            $('.saveChanges').prop('disabled', false);
+            $('#editTableBackdrop').modal('toggle');
+        }
+        function editTable() { }
+        function backPage() { window.location.replace("/configuration/main"); }
+
+        function get_definitionforedit(definitionId) {
+            $('.editTable').addClass('d-none');
+            $('#spinner_edit').removeClass('d-none');
+
+            $('#editTableBackdrop').modal('toggle');
+            var localData = localChanges[definitionId];
+
+            var data = $("#change_control").val();
+            console.log(data + " - id:" + definitionId);
+
+            if (localData) {
+                // Eğer lokal veri varsa onu kullan
+                setModalData(localData);
+            }
+            else {
+                $.ajax({
+                    url: '/configuration/get-definition/' + definitionId,
+                    method: 'GET',
+                    success: function (definition) {
+                        console.log(definition);
+                        setModalData(definition);
+                    }
+                });
+            }
+
+
+        }
+        function removeFromDefinition(definitionId, definitionttitle) {
+
+            Swal.fire({
+                title: "Bir kontrolü istasyondan kaldırıyorsunuz. Devam etmek istediğinize emin misiniz ?",
+                html: "<h6>İstasyondan kaldırılacak kontrol: </h6><p style='font-weight:900;'>" + definitionttitle + "</p><p>Bu işlem kontrolü tamamen kaldırmaz. Sadece istasyon içerisinde raporlama processinden çıkartır. Tekrardan eklenebilir.</p>",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "KALDIR!",
+                cancelButtonText: "İptal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var data = {
+                        id: definitionId,
+                        controlId: 0,
+                        StationId: 0,
+                        definitionLine: 0,
+                        shift: null,
+                    };
+
+                    $.ajax({
+                        url: '/configuration/delete-definition',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: function (response) {
+
+                            Swal.fire({
+                                title: "Kontrol başarılı bir şekilde listeden çıkartıldı.",
+                                icon: "success"
+                            }).then((result) => {
+                                refrPage();
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            var dataStatus = xhr.responseJSON;
+                            Swal.fire({
+                                title: "HATA - " + dataStatus.code + " - " + dataStatus.status,
+                                text: dataStatus.message,
+                                icon: "error"
+                            })
+                                .then(() => {
+                                    // Alert kapandıktan sonra sayfayı yenile
+                                    refrPage();
+                                });
+                        }
+                    });
+                }
+            });
+
+
+        }
+        function closeAlert() {
+            $('#messageDiv').alert('close');
+        }
+        function shortTable(row) {
+            if (row != null) {
+                $('#definitionTable').DataTable().destroy();
+
+                var table = $('#definitionTable').DataTable({
+                    "paging": false,           // Sayfalama kapatılır
+                    "ordering": true,          // Sıralama açık ama sadece belirli sütunlar için etkinleştirilecek
+                    "searching": false,        // Arama kapatılır
+                    "info": false,             // Bilgi kısmı kapatılır
+                    "order": [[1, 'asc']],     // 2. sütuna göre sıralama, küçükten büyüğe (dikkat: sıfır bazlı indeks)
+                    "columnDefs": [
+                        { "orderable": false, "targets": "_all" }, // Tüm sütunlar için sıralamayı kapat
+                        { "orderable": true, "targets": [1] }      // Sadece 2. sütun için sıralamayı aç
+                    ]
+                });
+                table.row(row).invalidate().draw(false); // draw(false) tablonun pozisyonunu korumak için kullanılır.
+            }
+            else {
+                $('#definitionTable').DataTable().destroy();
+
+                var table = $('#definitionTable').DataTable({
+                    "paging": false,           // Sayfalama kapatılır
+                    "ordering": true,          // Sıralama açık ama sadece belirli sütunlar için etkinleştirilecek
+                    "searching": false,        // Arama kapatılır
+                    "info": false,             // Bilgi kısmı kapatılır
+                    "order": [[1, 'asc']],     // 2. sütuna göre sıralama, küçükten büyüğe (dikkat: sıfır bazlı indeks)
+                    "columnDefs": [
+                        { "orderable": false, "targets": "_all" }, // Tüm sütunlar için sıralamayı kapat
+                        { "orderable": true, "targets": [1] }      // Sadece 2. sütun için sıralamayı aç
+                    ]
+                });
+                //var table = $('.table').DataTable();
+                // invalidate() ve draw() fonksiyonlarını çağırarak tablonun güncel görünümünü sağlıyoruz.
+                table.row().invalidate().draw(false); // draw(false) tablonun pozisyonunu korumak için kullanılır.
+            }
+
+            $('#definitionTable_wrapper').attr('style', 'max-height: 450px; overflow-y: auto; overflow-x: clip;');
+            $('#definitionTable_wrapper').addClass('box');
+
+            var width = $('#definitionTable_wrapper').width();
+            var savechng_col_style = 'bottom:90px; position:fixed;' + 'max-width: ' + width + 'px;';
+
+            $('.savechng_col').attr('style', savechng_col_style)//bottom:90px;position:fixed;max-width: 1301px;
+            //max-height: 200px;
+            //overflow-y: auto;
+            //overflow-x: clip
+        }
+        function getQueryParam(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        // Modal veri setleme işlemi için ortak fonksiyon
+        function setModalData(data) {
+            $('#line_input').val(data.definitionLine);
+            //$('#change_shift').val(data.shift).trigger('change');;
+            $('#change_control').val(data.controlId).trigger('change');
+            $('#id_input').val(data.id);
+            $('#img_bool').val(data.image);
+
+
+
+            if (data.image && data.base64 && data.base64.length < 10) {
+                $('.remove_img').removeClass('d-none');
+            }
+            else
+                $('.remove_img').addClass('d-none');
+
+
+            var shifts = data.shift.split('+');
+            var selectedShifts = [];
+
+
+            shifts.forEach(function (shift) {
+                selectedShifts.push(shift);
+
+            });
+            $("#change_shift").val(selectedShifts).trigger('change');
+            var host = "http://" + $(location).attr('host');
+            var url = "/assets/frame-images/" + data.id + ".png";
+            console.log(host + url);
+            if (data.base64 && data.base64.length > 10) {
+                $('#definition_img').attr('src', data.base64);
+            }
+            else {
+                if (data.image)
+                    $("#definition_img").attr("src", host + url);
+                else
+                    $("#definition_img").attr("src", "");
+            }
+
+
+            $('.editTable').removeClass('d-none');
+            $('#spinner_edit').addClass('d-none');
+
+        }
+        function removeImage() {
+            $('#img_bool').val(false);//(data.image) backend e post olarak false göderilirse resmi dosyalardan kaldır!!!
+            $.toast({
+                heading: 'Bir görüntü kaldırılmak üzere işaretlendi.',
+                showHideTransition: 'slide',
+                textColor: '#eee',
+                icon: 'info',
+                loader: false,
+                hideAfter: 5000,
+                //bgColor: '#39A7FF',
+                bgColor: '#333',
+                position: 'bottom-center'
+            })
+            //$('.img-fluid').append('<span class="close-mark">✖</span>');
+            $('.img-fluid').append('<span class="close-mark">X</span>');
+            $('#definition_img').attr('style', 'opacity:0.5;');
+        }
+    </script>
+}

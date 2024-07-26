@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewData["Title"] = "ReportView";
+    @model FrameControlKiosk.ViewModels.ReportJSON
+    int currentStation = 0;
+    int beforeStation = 0;
+    TimeSpan timeDiff = Model.ReportMain!.EndingDate - Model.ReportMain!.StartingDate;
+    int hours = (int)timeDiff.TotalHours;
+    int minutes = (int)timeDiff.TotalMinutes;
+    int x = 0;
+}
+
+<h1>Expert Kiosk System Reports</h1>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <select class="form-control choose_report">
+                <option value="0" disabled>Parça No seçiniz </option>
+                @foreach (var item in Model.ReportMains!)
+                {
+                    if (Model!.ReportMain!.Id == item.Id)
+                    {
+                        <option value="@item.Id" selected>@item.FrameNo</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Id">@item.FrameNo</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="row mt-3 mb-3 p-3">
+        <div class="col">
+            <div class="row bg-light shadow">
+                <div class="col-2">
+                    <h6>Parça No: </h6>
+                    <span>@Model.ReportMain!.FrameNo</span>
+                </div>
+                <div class="col-2">
+                    <h6>Rapor Başlangıç:</h6>
+                    <span>@Model.ReportMain.StartingDate.ToString("dd/MM/yyyy HH:mm")</span>
+                </div>
+                <div class="col-2">
+                    <h6>Rapor Bitiş:</h6>
+                    <span>@Model.ReportMain.EndingDate.ToString("dd/MM/yyyy HH:mm")</span>
+                </div>
+                <div class="col-2">
+                    <h6>Rapor Durumu:</h6>
+                    @if (Model.ReportMain.Done)
+                    {
+                        <span>Tamamlandı.</span>
+                    }
+                    else
+                    {
+                        <span class="bg-warning">TAMAMLANMADI!</span>
+                    }
+                </div>
+                <div class="col-2">
+                    <h6>Geçen süre(Dakika): </h6>
+                    <span>@minutes</span>
+                </div>
+                <div class="col-2"></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="">
+                <table class="table display shadow" id="report_table" style="width:100%;max-width:100%;">
+                    <thead class="bg-dark text-white">
+                        <tr style="font-size:larger;">
+                            <th>İstasyon/Vardiya</th>
+                            <th>Konrol Kriter</th>
+                            <th>Kriter Açıklaması</th>
+                            <th>Uygunluk Durumu</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-weight:100; font-size:smaller;">
+
+                        @foreach (var item in Model.ReportDetail!)
+                        {
+                            x++;
+                            if (item.Ok)
+                            {
+                                <tr>
+                                    <th style="background-color: @item.Definition!.Station!.HexColor">@item.Definition!.Station!.StationNum@item.Definition!.Shift</th>
+                                    <th>@item.Definition!.Control!.Title</th>
+                                    <th>@item.Definition!.Control!.Text</th>
+                                    @if (x == 1)
+                                    {
+                                        <th><i class="fa-solid fa-check text-success"></i> @Model.ReportMain.StartingDate.ToString("dd/MM/yyyy HH:mm") - @Model.ReportMain.EndingDate.ToString("HH:mm")</th>
+                                    }
+                                    else
+                                    {
+                                        <th></th>
+                                    }
+
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr class="bg-danger">
+                                    <th style="background-color: @item.Definition!.Station!.HexColor">@item.Definition!.Station!.StationNum@item.Definition!.Shift</th>
+                                    <th>@item.Definition!.Control!.Title</th>
+                                    <th>@item.Definition!.Control!.Text</th>
+                                    <th class=""><i class="fa-solid fa-xmark text-warning"></i> UYGUN DEĞİL!</th>
+                                </tr>
+                            }
+                            beforeStation = item.Definition!.StationId;
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.choose_report').focus();
+            $('.choose_report').change(function () {
+                var selectedValue = $(this).val();
+                var reportSelectedDate = '@Model.reportSelectedDate';// Seçilen değeri al
+                if (selectedValue != "" || selectedValue != "0" || selectedValue != 0) { // Eğer bir değer seçildiyse
+                    // Yönlendirme yapılacak URL
+                    //var url = '/yourAction?param=' + selectedValue;
+                    //var url = '/yourAction?param=' + selectedValue;
+                    var url = '/managament/readjson/kiosk-reports/'+reportSelectedDate+'/' + selectedValue;
+                    window.location.href = url; // Sayfayı belirtilen URL'ye yönlendir
+                }
+            });
+            $('#report_table').DataTable({
+                paging: false,
+                searching: false,
+                ordering: false,
+                info: false,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: 'Excel e Aktar', // İsteğe bağlı: Buton metnini özelleştirebilirsiniz
+                        title: '@Model.ReportMain.FrameNo numaralı rapor',  // Excel dosyasındaki başlık
+                        filename: '@Model.ReportMain.FrameNo', // İndirilen Excel dosyasının adı
+                        exportOptions: {
+                            modifier: {
+                                page: 'current'
+                            }
+                        }
+                    }
+                ]
+
+            });
+
+        });
+        /*
+        document.addEventListener("DOMContentLoaded", function () {
+            var tbody = document.querySelector("table tbody");
+            var wrapper = document.createElement("div");
+            wrapper.style.overflowY = "auto";
+            wrapper.style.maxHeight = "600px";
+            wrapper.style.maxWidth = "100%";
+            tbody.parentNode.insertBefore(wrapper, tbody);
+            wrapper.appendChild(tbody);
+        });
+        */
+    </script>
+}
